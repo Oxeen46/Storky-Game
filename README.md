@@ -13,11 +13,11 @@
 
 **[Oyun](#oyun) · [Durum](#durum) · [Kurulum](#kurulum) · [Yol haritası](#yol-haritasi) · [Ekip](#ekip)**
 
-[📒 Çalışma günlüğü ve kararlar](docs/CALISMA_GUNLUGU.md) · [🤖 Ajan yönergeleri](AGENTS.md)
+[📒 Çalışma günlüğü ve kararlar](docs/CALISMA_GUNLUGU.md) · [🤖 Ajan yönergeleri](AGENTS.md) · [📄 Oyun tasarımı / GDD](docs/Storky_GDD.pdf)
 
 </div>
 
-> 🟠 **İlk kontrol prototipi** — Leylek Unity'ye aktarıldı; yürüyüş ve uçuş test alanı yerelde hazır. Kullanıcı testi ve GitHub'a gönderim bekleniyor.
+> 🟠 **Kuş Adası greybox prototipi** — 600×600 m ada kasabası, deniz ve momentum tabanlı uçuş yerelde hazır. Yürüyüş eşleştirmesi, gövde merkezli Air Roll ve dalıştan toparlanma desteği uygulanıyor; oyun hissi ve hedef donanım testleri sürüyor.
 
 ---
 
@@ -25,33 +25,39 @@
 
 ## 🪽 Oyun hakkında
 
-Low poly leylek karakteri etrafında geliştirilen bir 3D oyun projesi.
+Storky, bebek üretim ve kargolama şirketinde işe başlayan bir leyleğin, emekli olacak amirinin yerine geçmek için yarıştığı mizahi bir 3D uçuş ve keşif oyunudur. Tasarım; iki kompakt ana ada, küçük keşif adaları, fabrika görevleri, kasaba etkileşimleri ve mini oyunları kapsar.
+
+Mevcut prototip, Kuş Adası'nın dış mekân greybox'ı ve hareket sistemidir. Hikâye, görevler ve ikinci ana ada henüz oynanabilir olarak kurulmadı.
 
 | Başlık | Durum |
 | --- | --- |
-| 🎮 Temel oynanış ve oyuncunun amacı | ⚪ Henüz belirlenmedi |
+| 🎮 Temel oynanış ve oyuncunun amacı | Uçuş, keşif ve görevler; şirketteki terfi yarışında öne çıkma |
 | 🖥️ Hedef platformlar | Windows PC ile başlangıç |
 | 🧩 Oyun modu | ⚪ Henüz belirlenmedi |
-| 🎨 Görsel yaklaşım | Low poly 3D |
-| 🛠️ Güncel aşama | Yürüyüş/uçuş prototipi ve kullanıcı testi |
+| 🎨 Görsel yaklaşım | Sıcak, stilize low poly 3D; mevcut ada gri ve dokusuz greybox |
+| 🛠️ Güncel aşama | Kuş Adası greybox'ı, hareket ayarı ve kullanıcı testi |
 
 <a id="durum"></a>
 
 ## 🟢 Proje durumu
 
 - Düzenlenebilir leylek Blender kaynağı.
-- Universal Render Pipeline (URP) ile Unity başlangıç projesi.
+- Universal Render Pipeline (URP) ile Unity projesi ve Kuş Adası çalışma sahnesi.
+- 70 dış bina kütlesi; fabrika, mahalleler, meydan, çarşı, liman ve kırsal kenar.
+- Kamerayı takip eden iki üçgenli deniz, tek güneş ve uzak görünüm ayarları.
 - Blender ve FBX dosyaları için Git LFS kuralları.
 - İşlerin, kararların ve devam noktalarının oturumlar halinde tutulduğu ortak günlük.
 
-**Hazır:** FBX aktarımı, altı animasyon, Generic rig, materyal, Animator, Prefab ve klavye/gamepad kontrollü FlightTest sahnesi. **Henüz tamamlanmadı:** Nihai oyun döngüsü, kullanıcı testine göre kontrol ayarları ve hedef donanımda performans doğrulaması. Bu bir test prototipidir.
+**Hazır:** Karakter ve ada FBX aktarımı, Generic rig, altı Animator durumu, kalibre yürüyüş klibi, karakter/ada Prefab'ları, klavye/gamepad kontrolleri ve FlightTest ada sahnesi. **Henüz tamamlanmadı:** Görev, diyalog ve kayıt sistemleri, diğer adalar, nihai hareket dengesi ve hedef donanımda performans doğrulaması.
 
 | Alan | Durum | Açıklama |
 | --- | --- | --- |
 | Kaynak karakter | 🟢 Hazır | Blender dosyası repoda; önceki model kontrolleri günlükte |
 | Unity temeli | 🟢 Kuruldu | URP başlangıç projesi ve SampleScene |
-| Unity karakter kurulumu | 🟢 Prototip hazır | FBX, palet materyali, altı klip, Generic rig, Animator ve Prefab |
-| Oynanış | 🟠 Test aşaması | Yürüyüş, kalkış, uçuş, süzülme, dalış ve takip kamerası; nihai oyun döngüsü açık |
+| Unity karakter kurulumu | 🟢 Prototip hazır | FBX, palet materyali, altı Animator durumu, hızla eşleşen yürüyüş ve Prefab |
+| Kuş Adası | 🟢 Greybox hazır | 600×600 m, 70 bina, yalnız dış mekân; Blender kaynağı, FBX ve ada Prefab'ı |
+| Deniz ve ışık | 🟢 Prototip hazır | Dokusuz mavi deniz, tek güneş, sis ve uzak nesne gizleme |
+| Oynanış | 🟠 Test aşaması | Yürüyüş, momentum, stamina, gövde merkezli Air Roll ve dalıştan toparlanma; görev sistemleri bekliyor |
 | Yayınlanabilir sürüm | ⚪ Henüz yok | İndirme veya yayın duyurusu bulunmuyor |
 
 ## 🧰 Teknoloji
@@ -74,9 +80,30 @@ Unity sürümü için esas dosya: [ProjectVersion.txt](UnityProject/ProjectSetti
 3. Repo klasöründe `git lfs install`, ardından `git lfs pull` çalıştır. Blender dosyası yalnızca birkaç satırlık LFS işaretçisi olarak kalmamalı.
 4. Unity Hub'da **Add project from disk** ile **UnityProject** klasörünü seç. Repo kökünü seçme.
 5. Paketlerin ve yerel Library klasörünün hazırlanmasını bekle.
-6. `Assets/_Game/Scenes/FlightTest.unity` sahnesini aç ve Play ile kontrol prototipini dene. `Assets/Scenes/SampleScene.unity` şablon olarak korunur.
+6. `Assets/_Game/Scenes/FlightTest.unity` sahnesini aç ve Play ile Kuş Adası prototipini dene. Başlangıç fabrika avlusudur. `Assets/Scenes/SampleScene.unity` şablon olarak korunur.
 
-Blender kaynağı: [Stork_Hero_Lite.blend](ArtSource/Stork/Stork_Hero_Lite.blend). Blender'da çalışırken repodaki bu kopyayı aç; başka klasördeki kopyayı düzenlemek bu repoyu güncellemez.
+Blender kaynakları: [Leylek](ArtSource/Stork/Stork_Hero_Lite.blend) ve [Kuş Adası](ArtSource/Environment/BirdIsland/Storky_BirdIsland.blend). Blender'da çalışırken ilgili repo kopyasını aç; başka klasördeki kopyayı düzenlemek bu repoyu güncellemez. Unity için FBX çıktıları `Assets/_Game/Art/` altında tutulur.
+
+### Kontroller
+
+| Eylem | Klavye / fare | Gamepad (Xbox / PlayStation) |
+| --- | --- | --- |
+| Yerde yürüme | WASD | Sol çubuk |
+| Havada burun aşağı / yukarı | W / S | Sol çubuk ileri / geri |
+| Havada sağ-sol dönüş | A / D | Sol çubuk sağ / sol |
+| Gövde merkezinde Air Roll | Q / E | LB/RB / L1/R1 |
+| Kalkış / bir kanat çırpma | Her Space basışı | Her A / Çarpı basışı |
+| Dalış | Sol Shift basılı | B / Daire basılı |
+| Kamera | Fare hareketi; tuş tutmak gerekmez | Sağ çubuk |
+| Başlangıca dönme | R | View / Share |
+| Duraklatma / devam | Esc | Start / Options |
+| Etkileşim için ayrılmış giriş | F | X / Kare |
+
+Kanat çırpmayınca otomatik süzülme başlar. Stamina kanat çırpmayı sınırlar; konunca hızlı, süzülmede çok yavaş yenilenir. Dalışta biriken destek, dalışı bırakıp burnu kaldırırken stamina gerektirmeden kısa bir toparlanma katkısı verir. Air Roll bırakıldığında açı korunur. Denize düşünce fabrika avlusuna dönülür. Etkileşim girişi ayrıldı; görev/diyalog sistemi henüz kurulmadı.
+
+### Doğrulama sınırları
+
+İlk ada kurulumunda 18 davranış kontrolü; sonraki hareket düzeltmesinde ayak kayması, analog adım temposu, dönüş merkezi ve sıfır stamina ile toparlanma dahil 13 hedefli kontrol geçti. Bu kontroller aynı anda çalıştırılmış nihai bir tam test paketi değildir. Fiziksel kontrolcüyle oyun hissi, eğimli yüzeyler, başka bilgisayarda açılış ve hedef donanımda performans ölçümü bekliyor. Görüş/gölge mesafeleri ve nesne gizleme ayarları başlangıç değerleridir; sabit FPS garantisi değildir.
 
 <details>
 <summary><strong>📂 Repo klasörlerini göster</strong></summary>
@@ -90,9 +117,11 @@ Storky-Game/
 ├── .gitattributes
 ├── .gitignore
 ├── docs/
-│   └── CALISMA_GUNLUGU.md
+│   ├── CALISMA_GUNLUGU.md
+│   └── Storky_GDD.pdf
 ├── ArtSource/
-│   └── Stork/Stork_Hero_Lite.blend
+│   ├── Stork/Stork_Hero_Lite.blend
+│   └── Environment/BirdIsland/Storky_BirdIsland.blend
 └── UnityProject/
     ├── .gitignore
     ├── Assets/
@@ -112,11 +141,16 @@ Bir yayın takvimi değildir; işler kullanıcı kararlarına göre güncellenir
 - [x] Leylek Blender kaynağını repoya ekle.
 - [x] Unity URP başlangıç projesini oluştur.
 - [x] README ve oturum günlüğü şablonunu hazırla.
-- [ ] Oyun fikrini ve oyun döngüsünü netleştir. İlk hedef platform Windows PC olarak seçildi.
+- [x] Ana oyun fikrini ve tasarım kapsamını GDD ile tanımla; ilk hedef platform Windows PC.
+- [ ] GDD'deki hikâye, görev, diyalog ve kayıt sistemlerini uygula.
 - [x] Unity oyun klasörlerini ve FlightTest çalışma sahnesini düzenle.
 - [x] Leyleği Unity'ye aktar; altı klibi ve materyali prototipte doğrula.
 - [x] Karakter Prefab'ını ve Animator Controller'ı oluştur.
 - [x] Kamera ve temel yürüyüş/uçuş prototipini hazırla.
+- [x] Kuş Adası greybox'ını, denizi ve güneşi çalışma sahnesine kur.
+- [x] Yürüyüş eşleştirmesi, Air Roll, stamina ve dalıştan toparlanma prototipini hazırla.
+- [ ] Kullanıcı geri bildirimiyle hareketi dengele; hedef donanımda performansı ölç.
+- [ ] İnsan Adası ve küçük keşif adalarını tasarla ve kur.
 - [ ] Projeyi başka ekip bilgisayarında doğrula.
 
 <a id="ekip"></a>

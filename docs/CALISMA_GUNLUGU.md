@@ -1,38 +1,41 @@
 # Storky — Çalışma günlüğü
 
-İşler ve kararlar **tarih kullanılmadan, oturum sırasıyla** tek dosyada tutulur. Oturum bir kesintisiz çalışma bütünüdür; konu değişiklikleri aynı oturum içinde bölüm olarak yazılır. Kullanıcı düzeltmesiyle eski dört kayıt, içerikleri korunarak Oturum 1 altında dört bölüme toplandı. Bu geçmiş özeti önceki konuşma ve Git kayıtlarından yeniden oluşturulmuştur; geçmiş bölümlerdeki durum ifadeleri o çalışmanın kaydıdır. Güncel durum aşağıdadır.
+İşler ve kararlar **tarih kullanılmadan, oturum sırasıyla** tek dosyada tutulur. Her oturum kesintisiz bir çalışmayı, bölümler o çalışmanın konularını temsil eder. Üstteki Güncel durum son yetkili güncellemeyi gösterir; aşağıdaki eski kayıtlar kendi dönemlerinin tarihçesidir. Genel yönergede geçerli oturum numarası sabitlenmez. Kullanıcının açık oturum düzeltmesi kayıt güncellenmeden önce de geçerlidir.
 
 ## Güncel durum
 
 | Konu | Durum ve dayanak |
 | --- | --- |
-| Repo | Storky-Game; yerel dal `main`; çalışma başlangıcında temizdi, mevcut değişiklikler korundu |
-| Oturum | Bu çalışma **Oturum 2**; sohbet adı `Unity-Storky-2`. Bu çalışmanın devamı aynı kayıtta güncellenir |
+| Repo | Storky-Game; yerel dal `main`; ada ve hareket değişiklikleri yerelde, mevcut çalışma ağacı korundu. Uzak depo bu çalışmada sorgulanmadı |
+| Oturum | **Oturum 3**; kullanıcı tarafından açıkça belirlendi. İlgili sohbet `Unity-Storky-3` olarak yeniden adlandırıldı; aynı çalışmanın devamı bu kayıtta tutulur |
 | Hedef platform | Kullanıcı seçimi: önce Windows PC |
-| Kaynak model | `ArtSource/Stork/Stork_Hero_Lite.blend` LFS ile takip ediliyor. Dışa aktarılan açık Blender kopyası eski çıktı klasöründeydi ve kaydedilmemiş değişiklikleri vardı; kaynak üzerine yazılmadı |
-| Unity | 6000.3.27f1, URP 17.3.0, Input System 1.20.1; Editor yükseltilmedi |
-| Bağlantı | Unity CLI 1.0.0-beta.15 + Pipeline 0.9.1-exp.1; Codex MCP üzerinden canlı okuma/yazma ve Play kontrolleri doğrulandı |
-| Sahne | `UnityProject/Assets/_Game/Scenes/FlightTest.unity`; 300×300 m çizgili eğitim alanı. Eski SampleScene korundu |
-| Karakter | `_Game/Art/Stork` altında FBX ve PNG; Generic rig, tek palet materyali, altı klip, Animator ve Prefab hazır |
-| Prototip | Yeni Input System ile yürüyüş, kalkış, uçuş, süzülme, dalış, otomatik iniş, takip kamerası ve cihaz ailesine göre kontrol metinleri |
-| Kontroller | Sanal klavye/gamepad ile temel davranışlar sınandı; fiziksel XInput cihazı algılandı; gerçek kullanıcı testi bekleniyor |
-| Git | Commit/push yapılmadı. Unity değişiklikleri ve bu belge düzenlemeleri yereldedir; GitHub'a gönderilmedi |
+| Oyun tasarımı | Kullanıcının sağladığı [Storky_GDD.pdf](Storky_GDD.pdf) repoya eklendi. Terfi yarışı, iki ana ada ve keşif/görev kapsamı tasarım olarak tanımlı; görev, diyalog ve kayıt sistemleri henüz uygulanmadı |
+| Sanat kaynakları | Leylek: `ArtSource/Stork/Stork_Hero_Lite.blend`; ada: `ArtSource/Environment/BirdIsland/Storky_BirdIsland.blend`. Ada FBX'i Unity'ye aktarıldı; eski leylek kaynak-kopya farkı açık iş olarak korunuyor |
+| Unity | 6000.3.27f1, URP 17.3.0, Input System 1.20.1; Editor/paket sürümleri değiştirilmedi |
+| Bağlantı | Bu oturumdaki ürün çalışmasında Blender MCP ve Unity Pipeline kullanıldı; CLI 1.0.0-beta.16'ya güncellendi. Bağlantı her yeni çalışmada yeniden doğrulanmalı |
+| Sahne | `UnityProject/Assets/_Game/Scenes/FlightTest.unity`: 600×600 m Kuş Adası, 70 dış bina kütlesi, fabrika avlusu başlangıcı. Eski test nesneleri kaldırıldı; SampleScene ve proje varlıkları korunuyor |
+| Deniz / görünüm | İki üçgenli, kamerayı takip eden dokusuz mavi deniz; tek güneş; sis ve uzak görünüm/gölge ayarları. Ada tamamen gri, iç mekân yok |
+| Karakter / hareket | Mevcut rig ve altı Animator durumu korundu; ayrı kalibre yürüyüş klibi, gerçek hıza göre tempo, gövde merkezli Air Roll, stamina, momentum ve dalıştan toparlanma desteği hazır |
+| Kontroller | Serbest fare kamerası; W/S burun aşağı/yukarı, Q/E roll, Space tek vuruş, Shift dalış. Gamepad karşılıkları ve ayrıntılar aşağıda ve README'de |
+| Doğrulama | Ada kurulumunda 18 davranış kontrolü; hareket düzeltmesinde 13 hedefli kontrol geçti. Son ürün kontrolünde Console hatasız/uyarısız, Play kapalı ve sahne kaydedilmişti. Bunlar donanım performansı veya tüm oyun için tam test kanıtı değildir |
+| Git | Commit/push yapılmadı. Son görülen mevcut commit `05492b8` (`unity baslangici ve diger degisiklikler`); bu oturumun ürün ve belge değişiklikleri henüz gönderilmedi |
 
 ### Sıradaki işler
 
-1. Kullanıcı FlightTest sahnesini klavye ve bağlı XInput kontrolcüsüyle deneyecek; hız, dönüş, kamera ve animasyon geçişleri geri bildirime göre ayarlanacak.
-2. Açık Blender kopyası ile repodaki kaynak arasındaki farklar incelenecek; kaydedilmemiş değişiklikler otomatik olarak repoya taşınmayacak.
-3. PlayStation/Switch fiziksel kontrolcü testi ve ekip arkadaşının bilgisayarında proje açılışı yapılacak.
-4. Görsel bütçe önerileri kesinleştirilecek; hedef PC donanımı ve temsili sahneyle performans ölçülecek.
-5. Kullanıcının göndereceği tekrar kullanılabilir başlangıç metni AGENTS.md'ye eklenecek; henüz gönderilmedi.
-6. GitHub'a gönderilecek kapsam netleştirilip açık commit/push talimatına göre işlem yapılacak.
+1. Kullanıcı, FlightTest'te yürüyüş temposu, gövde merkezli Air Roll, dalıştan çıkış ve kanat çırpma etkisini deneyecek; denge buna göre ayarlanacak.
+2. Yamaçlarda/çatılarda ayak teması, konma ve kamera çarpışmaları daha geniş güzergâhlarda kontrol edilecek. Düz zemin testi bütün araziyi doğrulamaz.
+3. Fiziksel gamepad, özellikle PlayStation/Switch, başka ekip bilgisayarında açılış ve hedef Windows donanımında performans ölçümü yapılacak.
+4. GDD'nin görev/diyalog/kayıt sistemleri ile İnsan Adası ve küçük keşif adaları kullanıcı önceliğine göre planlanacak; tamamlanmış sayılmayacak.
+5. Eski açık leylek Blender kopyası ile repodaki kaynağın farkı incelenecek; bu açık iş [Oturum 2](#oturum-2--unity-bağlantısı-leylek-aktarımı-ve-uçuş-prototipi)'den devrediyor.
+6. Tekrar kullanılabilir başlangıç metni kullanıcı tarafından verilirse tek kopya olarak yönergelere eklenecek. Commit/push kapsamı ancak açık kullanıcı talimatıyla uygulanacak.
 
 ### Açık kararlar
 
-- Oyuncunun temel amacı, oyun döngüsü ve nihai uçuş modeli.
-- Hedef PC donanımı, performans ölçümü ve görsel bütçelerin kesin üst sınırları.
+- Nihai yürüyüş/uçuş dengesi ve dalıştan toparlanma desteğinin son değerleri. Mevcut sayılar test ayarlarıdır.
+- Hedef PC donanımı, performans bütçesi ve ölçüm sonucu; sabit FPS garantisi verilmedi.
+- Görevlerin uygulanma sırası, ikinci ada ve keşif adalarının ayrıntılı yerleşimi.
 - Ekip görevleri, dal/inceleme düzeni ve dağıtım/lisans koşulları.
-- Mevcut README tercihi: görselsiz renkli şablon; kapak, karakter resmi veya GIF eklenmez.
+- README tercihi korunuyor: renkli klasik şablon; kapak, karakter resmi veya GIF eklenmez.
 
 ---
 
@@ -238,6 +241,91 @@ Gerçek kullanıcı oyun testi, fiziksel PlayStation/Switch testi, hedef PC perf
 
 ### Git kaydı
 Commit/push yapılmadı. Oturum başında temiz olan çalışma ağacında bu çalışmanın Unity ve belge değişiklikleri bulunuyor. GitHub'daki belgeler henüz güncellenmedi.
+
+---
+
+## Oturum 3 — Kuş Adası greybox'ı, Unity sahnesi ve hareket düzeni
+
+### Amaç
+
+Kullanıcının GDD'sine ve seçtiği ölçeğe göre Kuş Adası'nın dış mekân greybox'ını kurmak; mevcut leyleği koruyarak Unity'ye aktarmak; deniz, ışık, görünürlük ve hareket sistemini kullanıcı kontrolleriyle hazırlamak. Sonraki geri bildirimle yürüyüş, Air Roll ve dalıştan toparlanmayı düzeltmek.
+
+### Bölüm 1 — Tasarım ve Blender
+
+- Kullanıcı önce denizin Unity'de kurulması yaklaşımını kabul etti; modellemeye başlamadan ada türü, büyüklük ve görünüm soruldu.
+- Kullanıcı **Kuş Adası**, fabrika, **600×600 m / 60–90 bina**, Ege/Akdeniz yamaçları, koy ve liman, tamamen gri ve yalnız dış mekân seçti. İç mekân yapılmadı.
+- Blender MCP ile 70 bina kütlesi, mahalleler, fabrika yerleşkesi, meydan, çarşı, kamusal yapılar, liman, çiftlikler, deniz feneri, konma yüzeyleri ve yollar oluşturuldu.
+- Son çevre sayımı: ağaç kopyaları dahil 14.210 üçgen, 152 görünür mesh nesnesi, dört ortak nötr gri materyal ve sıfır doku görseli. Ana ada ölçüsü 600×600 m olarak doğrulandı.
+- Bina sınır kutuları ve yol merkezleri kontrol edildi; bulunan yol-bina çakışmaları düzeltildi. Rıhtım/iskele rampaları eklendi. Bunlar tam fizik veya bütün rota testi değildir.
+- Düzenlenebilir ada `.blend` kaynağı `ArtSource/Environment/BirdIsland/`, Unity için üçgenlenmiş metre ölçekli FBX `_Game/Art/Environment/BirdIsland/` altına kaydedildi. Kamera, ışık, animasyon ve gizli ağaç prototipi FBX'e dahil edilmedi.
+
+### Bölüm 2 — Unity, deniz ve onaylanan kontroller
+
+- Kullanıcı silme kapsamını açık sahnedeki kuş dışındaki nesneler olarak onayladı. Mevcut Stork Player, rig, palet ve animasyonlar korundu; eski eğitim zemini/işaretleri kaldırıldı. Diğer proje varlıkları silinmedi.
+- Ada collider'ları ve tekrar kullanılabilir BirdIsland Prefab'ı kuruldu; başlangıç fabrika avlusu, denize düşünce başlangıca dönüş olarak ayarlandı.
+- İlk Play kontrolünde FBX ölçeğiyle büyüyen ağaç kapsülleri saptandı ve geometriyle eşleşen mesh collider'larla düzeltildi.
+- Tek yönlü güneş, gri çevre materyalleri, dokusuz gökyüzü ve kamerayı takip eden iki üçgenli mavi deniz eklendi. Gerçek zamanlı yansıma, kırılma veya saydam su katmanları kullanılmadı.
+- Görüş 3.000 m, küçük detay uzaklığı 330 m, evler için 1.500 m üst sınırı ve ekran boyutuna göre gizleme kuruldu. Arazi silueti korunuyor. Gölgeler 110 m, iki kademe ve 2048 çözünürlük; 2x MSAA ve SRP Batcher açık, çevre statik birleştirme için işaretli. Gereksiz kamera renk/derinlik kopyaları kapalı.
+- Deniz sisinin çok büyük dört köşeden hesaplanması yakın suyu da soldurduğu için sis hesabı yüzey boyunca yapıldı; ufuk ve gökyüzü renkleri eşleştirildi. URP'nin desteklemediği spherical layer culling seçeneği kaldırıldı. Uzaklık değerleri oyun açılışında da uygulanıyor.
+- Kullanıcı fare kamerasını sağ tuş tutmadan istedi. Klavye: yerde WASD; havada W/S burun aşağı/yukarı, A/D dönüş, Q/E Air Roll, Space her basışta kalkış/kanat çırpma, Shift basılı dalış, R başlangıca dönüş, Esc duraklatma/devam. F etkileşim için ayrıldı; görev/diyalog uygulanmadı.
+- Gamepad: sol çubuk yürüme/burun/dönüş, sağ çubuk kamera, LB/RB veya L1/R1 roll, A/Çarpı tek vuruş, B/Daire dalış, X/Kare ayrılmış etkileşim girişi, View/Share dönüş, Start/Options duraklatma.
+- Önceki test alanının sabit yatay/yükseklik sınırları ve doğrudan yükselme/alçalma kontrolü kaldırıldı; momentum, sınırlı kanat çırpma, otomatik süzülme ve hafif hava akımı eklendi. Hava akımı ilave stamina doldurmuyor.
+
+### Bölüm 3 — Yürüyüş, gövde merkezli roll ve dalıştan toparlanma
+
+- Kullanıcı yürüyüşte kayma, merkezden uzak Air Roll, dalıştan çıkışın zayıflığı ve kanat vuruşunun ileri hız katkısıyla ilgili geri bildirim verdi. Bu değişiklikleri doğrudan talep etti.
+- Orijinal yürüyüşün yerdeki ayak hareketi yaklaşık 0,35 m/s'ye uygunken karakter 4 m/s ilerliyordu. Özgün FBX değiştirilmeden daha uzun adımlı, bacakları çözümlenmiş ayrı bir yürüyüş klibi oluşturuldu; Animator'daki Walk durumuna bağlandı.
+- Ölçülen yeni klip referansı yaklaşık 0,805 m/s. Uygulanan yürüyüş hızı 1,4 m/s; animasyon temposu istenen girişten değil gerçek kat edilen mesafeden hesaplanıyor. Analog girişte tempo azalıyor; duvarda hareket durunca Idle'a dönüyor.
+- Air Roll, Animator pozu değerlendirildikten sonra gövde kemiği etrafında uygulanıyor. Roll'un eklediği otomatik yaw ve dairesel rota etkisi kaldırıldı; açısal hızla dönüş ve bırakınca açının korunması sağlandı.
+- Gerçek dalışta kaybedilen irtifadan kısa süreli toparlanma desteği birikiyor. Dalış bırakılıp burun kaldırılırken bu destek stamina olmadan kullanılabiliyor; yalnız tuşa basarak dolmuyor ve kullanımda tüketiliyor. Yükselişte momentum daha güçlü korunuyor.
+- Uygulanan deneme değerleri: en yüksek hava hızı 62 m/s, roll hızı 220 derece/s, havadaki kanat vuruşu ileri hız katkısı 5,5 m/s. Toparlanma katkısı biriken desteğe bağlı; azami hız katkısı 11 m/s ve süresi 2 s. Bunlar kullanıcının geri bildirimine göre değiştirilebilen prototip değerleridir.
+- Sahne ve karakter Prefab'ındaki ayarlar eşleştirildi; ada kurulum kodundaki eski hız değerleri de güncellendi.
+
+### Bölüm 4 — Kayıt ve oturum düzeni
+
+- Kullanıcı bu çalışmanın **Oturum 3** olduğunu açıkça belirtti; ilgili sohbet adı araç sonucuyla `Unity-Storky-3` olarak değiştirildi.
+- Eski AGENTS.md geçerli çalışmayı ve sohbet adını Oturum 2'ye sabitliyordu. Kullanıcının onayıyla bu ifadeler genel kuralla değiştirildi: numara tek yerde günlüğün Güncel durum bölümünde tutulur; kullanıcının açık düzeltmesi önceliklidir; geçmiş oturum metni yeni çalışmayı belirlemez.
+- Kullanıcı bu oturum kaydının, README'nin ve yönergelerin güncellenmesini açıkça onayladı. Bu onay commit/push yetkisi olarak yorumlanmadı.
+- Sağlanan GDD, kaynak PDF değiştirilmeden `docs/Storky_GDD.pdf` olarak repoya eklendi. README güncel oyun tanımı, ada sahnesi, kaynak yolları, kontroller, yol haritası ve doğrulama sınırlarıyla eşleştirildi. Geçmiş iki oturumun metni korundu.
+
+### Kararlar / Decisions
+
+- **Kullanıcı tercihleri:** Kuş Adası; 600×600 m, 60–90 bina ölçeği; gri/dokusuz dış mekân; fabrika ve ada kasabası; deniz Unity'de ve mavi; mevcut leyleği koruyarak yalnız sahne nesnelerini yenileme; serbest fare kamerası ve yukarıdaki kontroller.
+- **Hareket yönü:** Gövde merkezli, Rocket League benzeri Air Roll hissi; stamina bitse de dalıştan kazanılan momentumla toparlanma; kanat vuruşunda daha güçlü ileri hız katkısı. Bunlar kullanıcının bu oturumdaki yeni talepleridir. [Oturum 2](#oturum-2--unity-bağlantısı-leylek-aktarımı-ve-uçuş-prototipi)'deki ilk test kontrolleri ve sabit alan yaklaşımı güncel tercih değildir; tarihçe olarak korunur.
+- **Uygulanan prototip ayarları:** Yürüyüş, hızlar, destek süresi, sis ve görünürlük sayıları yukarıdaki ölçüm/uygulama değerleridir; nihai denge, hedef donanım bütçesi veya evrensel standart olarak kesinleştirilmedi.
+- **Kapsam:** İç mekânlar, görev/diyalog/kayıt sistemleri ve diğer adalar yapılmış sayılmaz. GDD tasarımı ile uygulanmış ürün birbirinden ayrı tutulur.
+- **Kayıt düzeni:** Oturum numarası genel yönergede sabitlenmez. Kullanıcı oturum sınırını açıkça belirlerse esas alınır; mesaj/konu/uygulama açılışı otomatik yeni oturum değildir. Günlük onayla güncellenir; aynı yetkili kapsam için tekrar onay istenmez.
+
+### Önemli dosyalar
+
+- `ArtSource/Environment/BirdIsland/Storky_BirdIsland.blend`
+- `UnityProject/Assets/_Game/Art/Environment/BirdIsland/Storky_BirdIsland.fbx` ve `OceanQuad.asset`
+- `UnityProject/Assets/_Game/Prefabs/BirdIsland.prefab` ve `StorkPlayer.prefab`
+- `UnityProject/Assets/_Game/Scenes/FlightTest.unity`
+- `UnityProject/Assets/_Game/Scripts/StorkPrototype.cs`, `InfiniteOcean.cs`, `IslandViewSettings.cs`, `StorkUpdraft.cs`
+- `UnityProject/Assets/_Game/Editor/StorkIslandSetup.cs`, `StorkMotionCalibration.cs`
+- `UnityProject/Assets/_Game/Animations/Stork.controller`, `Stork_Walk_GroundMatched.anim`
+- `UnityProject/Assets/_Game/Shaders/IslandSky.shader`, `StylizedOcean.shader`; ada materyalleri ve `Island_RenderPipeline.asset`
+- `UnityProject/ProjectSettings/QualitySettings.asset`, `TagManager.asset`; yeni varlıkların `.meta` dosyaları
+- `docs/Storky_GDD.pdf`, `AGENTS.md`, `README.md`, bu çalışma günlüğü
+
+### Kontroller
+
+- **İlk ada kurulumu:** 18 otomatik Play davranış kontrolü geçti: ilerleyen kareler, kararlı başlangıç, klavye/gamepad yürüme/kalkış/roll/dalış, otomatik süzülme, dalışta hız kazanma, stamina tüketimi/yenilenmesi, fare kamerası, duraklatma/devam, denizden dönüş ve hava akımının ilave stamina vermemesi. Bu kayıt, sonraki hareket ayarı öncesindeki durumu ifade eder.
+- **Son hareket düzenlemesi:** 13 hedefli kontrol geçti: hız-tempo eşleştirmesi, yere basan ayak kayması, duvarda durma, analog tempo, gövde dönüş merkezi, roll'un rotayı kıvırmaması, açının korunması, gerçek dalıştan destek birikmesi, sıfır stamina ile çıkış desteği, düşüşten toparlanma, kanat çırpmadan yükselişi sürdürme, kanat vuruşunda ileri hız ve yükselme.
+- Düz zemin yürüyüş ölçümünde yere basan ayakların ortanca yatay kayma hızı yaklaşık 0,0005 m/s; 112 örnek. Roll ölçümünde gövde merkezinin en büyük farkı yaklaşık 0,006 m, heading sapması 0 dereceydi. Bu sonuçlar yalnız ölçülen koşulları doğrular.
+- Sıfır stamina senaryosunda dalıştan çıkış hızı yaklaşık 36,98'den 49,42 m/s'ye çıktı; takip eden 1,6 s'de kanat çırpmadan yaklaşık 49,61 m yükselme gözlendi. Bu değerler test senaryosudur; her dalış için garanti değildir.
+- Yakın/yandan yürüyüş ve uzak ada/deniz görüntüleri incelendi. Son ürün kontrolünde güncel Unity Console hata/uyarısı yoktu; geçici giriş cihazları temizlendi, Play kapalı ve sahne kaydedilmiş bırakıldı.
+- Belge aşamasındaki dosya denetiminde eksik/orphan `.meta`, Assets içi yinelenen GUID ve bozuk yerel belge bağlantısı bulunmadı. Kaynak `.blend` ve `.fbx` dosyaları yalnız LFS işaretçisi değildi. Belge değişikliği için Unity/Blender yeniden çalıştırılmadı.
+- 18 ve 13 kontrol farklı aşamalara aittir; tek bir son tam test paketi veya donanım performansı kanıtı gibi toplanmaz. Fiziksel kontrolcü, tüm arazi, başka bilgisayar ve hedef donanım ölçümü tamamlanmadı.
+
+### Eksikler ve devam noktası
+
+Kullanıcının son hareket hissi geri bildirimi alınacak; özellikle 1,4 m/s yürüyüş ve güçlü dalış çıkışı denge açısından gözden geçirilecek. Eğimli zeminde ayak teması, tüm konma/duvar/kamera rotaları ve gerçek gamepad testi genişletilecek. Diğer adalar ve GDD sistemleri henüz uygulanmadı. Eski leylek Blender kopyası farkı ve tekrar kullanılabilir başlangıç metni açık işlerdir. Gönderim kapsamı ayrıca açık talimat gerektirir.
+
+### Git kaydı
+
+Commit/push yapılmadı. Son görülen mevcut commit `05492b8` (`unity baslangici ve diger degisiklikler`), Oturum 3 değişikliklerinden öncedir. Ada, hareket ve bu belge düzenlemeleri yerel çalışma ağacındadır; uzak depo bu çalışmada sorgulanmadı veya güncellenmedi.
 
 ---
 

@@ -74,9 +74,28 @@ MonoBehaviour:
   visual: {fileID: 200808028005480845}
   animator: {fileID: 1327560534939344115}
   followCamera: {fileID: 0}
-  walkSpeed: 3
+  walkSpeed: 1.4
   flightSpeed: 10
   climbSpeed: 4
+  walkCycleSpeed: 0.8050096
+  maxAirSpeed: 62
+  stallSpeed: 8
+  pitchRate: 68
+  turnRate: 65
+  rollRate: 220
+  staminaCapacity: 100
+  flapCost: 16
+  glideRecovery: 1.2
+  groundRecovery: 65
+  flapSpeedImpulse: 5.5
+  flapLiftImpulse: 3.2
+  seaLevel: 0
+  recoverySpeedImpulse: 11
+  recoveryLift: 9
+  recoveryDuration: 2
+  environmentMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &6650322563873343736
 GameObject:
   m_ObjectHideFlags: 0
