@@ -56,4 +56,15 @@ Kanat çırpılmadığında otomatik süzülme devreye girer. Konmak staminayı 
 | Düzenlenebilir Blender kaynakları | [Leylek](ArtSource/Stork/Stork_Hero_Lite.blend) · [Kuş Adası](ArtSource/Environment/BirdIsland/Storky_BirdIsland.blend) |
 | Yeni bir modelle çalışmaya başlama | [AGENTS.md](AGENTS.md) |
 
-Yeni bir sohbet veya model için repo linkiyle birlikte **“Ana daldaki AGENTS.md’yi oku ve çalışma günlüğünün üst bölümünden devam et”** demen yeterli. Modelin o çalışma alanında GitHub’a veya klonlanmış depoya erişebilmesi gerekir.
+## 🤖 Yeni çalışma alanı
+
+GitHub’a veya klonlanmış depoya erişebilen modele şu metni gönder:
+
+```text
+https://github.com/Oxeen46/Storky-Game
+
+Storky için ana daldaki AGENTS.md yönergelerini uygula. Çalışma günlüğünü okuyup
+projenin güncel durumunu ve sıradaki işi kısaca özetle.
+```
+
+Model, yeni oturumun numarasını çalışma günlüğünden hesaplar. Sohbet adı değiştirme aracı varsa sohbeti `Unity-Storky-N` biçiminde adlandırır.
