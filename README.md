@@ -11,11 +11,11 @@
 
 [🎮 Kurulum](#kurulum) · [🕹️ Kontroller](#kontroller) · [📒 Proje durumu](docs/CALISMA_GUNLUGU.md#guncel-durum) · [🤖 Ajan rehberi](AGENTS.md) · [📄 GDD](docs/Storky_GDD.pdf)
 
-<img width="1280" height="640" alt="Storky_GitHub_Kapak" src="https://github.com/user-attachments/assets/8a022a4e-3405-4034-9600-f150240b5e19" />
-
 </div>
 
 Storky, bebek üretim ve kargolama şirketinde işe başlayan bir leyleğin terfi yarışını anlatan stilize bir 3D uçuş ve keşif oyunu. Şu an Unity’de Kuş Adası’nın dış mekân greybox’ı ve leyleğin hareket prototipi oynanabilir. Diğer adalar, hikâye ve görevler tasarım aşamasında. Uygulanan özellikler, kararlar ve sıradaki işler [çalışma günlüğünde](docs/CALISMA_GUNLUGU.md#guncel-durum).
+
+<img width="1280" height="640" alt="Storky_GitHub_Kapak" src="https://github.com/user-attachments/assets/8a022a4e-3405-4034-9600-f150240b5e19" />
 
 <a id="kurulum"></a>
 
