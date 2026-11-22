@@ -42,9 +42,7 @@ Storky, bebek üretim ve kargolama şirketinde işe başlayan bir leyleğin terf
 | Kalkış / kanat çırpma | Her Space basışı | Her A / Çarpı basışı |
 | Dalış | Sol Shift basılı | B / Daire basılı |
 | Kamera | Fareyi hareket ettir | Sağ çubuk |
-| Başlangıca dönme | R | View / Share |
 | Duraklatma / devam | Esc | Start / Options |
-| Etkileşim için ayrılan giriş | F | X / Kare |
 
 Kanat çırpılmadığında otomatik süzülme devreye girer. Konmak staminayı hızlı, süzülmek yavaş yeniler. Dalışta biriken destek, burnu kaldırırken stamina harcamadan kısa süreli hız ve yükseliş sağlar. Denize düşünce leylek fabrika avlusuna döner.
 

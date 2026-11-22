@@ -1,0 +1,53 @@
+/* Arka plan ve menü kartı */
+#pause-overlay, .dialog-shade {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    align-items: center; justify-content: center;
+    background-color: rgba(10, 25, 32, 0.45);
+    color: rgb(244, 247, 233);
+    font-size: 15px;
+}
+.pause-card, .dialog-box {
+    width: 310px; max-width: 94%;
+    padding: 22px;
+    background-color: rgba(20, 42, 48, 0.84);
+    border-top-width: 3px;
+    border-top-color: rgb(244, 188, 106);
+    border-radius: 8px;
+}
+.pause-card.wide { width: 91%; max-width: 1080px; height: 72%; padding: 16px; }
+
+/* Ayar sütunları ve açıklama alanı */
+.heading { font-size: 24px; -unity-font-style: bold; margin-bottom: 12px; }
+.columns { flex-direction: row; flex-grow: 1; min-height: 0; }
+.sidebar { width: 20%; padding-right: 8px; }
+.settings-scroll { width: 52%; padding-right: 8px; }
+.info { flex-grow: 1; flex-basis: 0; padding: 10px; border-left-width: 1px; border-left-color: rgba(240, 245, 222, 0.30); }
+.caption { color: rgb(247, 202, 135); -unity-font-style: bold; margin-bottom: 6px; }
+.description, .item-label, .value { white-space: normal; }
+.description { font-size: 14px; }
+
+/* Ayar satırları ve seçim durumları */
+.item {
+    position: relative; flex-direction: row; flex-wrap: wrap; align-items: center;
+    justify-content: space-between; flex-shrink: 0;
+    min-height: 34px; margin-bottom: 4px; padding: 5px 9px;
+    background-color: rgba(199, 226, 210, 0.09);
+    border-left-width: 3px; border-left-color: rgba(0, 0, 0, 0);
+    border-radius: 3px;
+}
+.item.current { border-left-color: rgb(124, 202, 180); }
+.item.chosen { background-color: rgb(64, 88, 86); border-left-color: rgb(253, 201, 125); }
+.item.inactive { opacity: 0.43; }
+.value { color: rgb(249, 216, 159); -unity-font-style: bold; }
+
+/* Ayar çubuğu ve geri düğmesi */
+.track { width: 100%; height: 14px; margin-top: 4px; background-color: rgb(32, 53, 58); border-radius: 4px; overflow: hidden; }
+.fill { height: 100%; background-color: rgb(115, 194, 166); }
+.back { align-self: flex-start; margin-top: 8px; padding: 3px 8px; }
+.back:hover { background-color: rgb(64, 88, 86); }
+.back-label { color: rgb(247, 202, 135); }
+
+/* Tuş atama iletişim kutusu */
+.dialog-box { width: 390px; background-color: rgb(27, 49, 56); }
+.dialog-box .description { margin-bottom: 12px; }

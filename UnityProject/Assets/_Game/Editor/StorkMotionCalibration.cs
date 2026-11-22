@@ -11,6 +11,8 @@ namespace Storky.Editor
     public static class StorkMotionCalibration
     {
         const string WalkPath="Assets/_Game/Animations/Stork_Walk_GroundMatched.anim";
+
+        // Bacak pozu ve hareket kalibrasyonu
         static void SolveLeg(Transform upper,Transform lower,Transform foot,Vector3 target,Vector3 pole)
         {
             Quaternion footRotation=foot.rotation;
@@ -34,6 +36,8 @@ namespace Storky.Editor
             p.recoverySpeedImpulse=11;p.recoveryLift=9;p.recoveryDuration=2;
             EditorUtility.SetDirty(p);
         }
+
+        // Yürüyüş klibini hazırlama
         public static string Bake()
         {
             if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop Play before calibration.");
@@ -60,6 +64,7 @@ namespace Storky.Editor
             int samples=Mathf.CeilToInt(source.length*60);
             try
             {
+                // Ayak konumlarını ve animasyon eğrilerini örnekleme
                 for(int i=0;i<=samples;i++)
                 {
                     float time=source.length*i/samples;source.SampleAnimation(clone,time);
@@ -81,6 +86,8 @@ namespace Storky.Editor
                         curves[paths[t]+"|m_LocalRotation.w"].AddKey(time,q.w);
                     }
                 }
+
+                // Eğrileri klibe yazma
                 foreach(var item in curves)
                 {
                     string[] parts=item.Key.Split('|');var curve=item.Value;
@@ -90,6 +97,8 @@ namespace Storky.Editor
                 }
                 copy.EnsureQuaternionContinuity();
                 var settings=AnimationUtility.GetAnimationClipSettings(copy);settings.loopTime=true;settings.loopBlend=true;AnimationUtility.SetAnimationClipSettings(copy,settings);
+
+                // Zemine basan ayağın referans hızını ölçme
                 var plantedSpeeds=new List<float>();
                 for(int side=0;side<2;side++)
                 {
@@ -103,6 +112,8 @@ namespace Storky.Editor
                 }
                 if(plantedSpeeds.Count<10)throw new InvalidOperationException("Not enough planted-foot samples to calibrate stride.");
                 plantedSpeeds.Sort();float reference=plantedSpeeds[plantedSpeeds.Count/2];
+
+                // Klibi, karakteri ve sahneyi kaydetme
                 var existing=AssetDatabase.LoadAssetAtPath<AnimationClip>(WalkPath);
                 if(existing){EditorUtility.CopySerialized(copy,existing);UnityEngine.Object.DestroyImmediate(copy);}
                 else {AssetDatabase.CreateAsset(copy,WalkPath);existing=copy;}

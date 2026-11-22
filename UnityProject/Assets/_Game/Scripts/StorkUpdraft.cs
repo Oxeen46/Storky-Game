@@ -4,8 +4,11 @@ namespace Storky
 {
     public sealed class StorkUpdraft : MonoBehaviour
     {
+        // Hava akımı alanı ve şiddeti
         public StorkPrototype player;
         public float radius=16, height=55, acceleration=1.4f;
+
+        // Hava akımını uygulama ve temizleme
         void Update()
         {
             if(!player)return;

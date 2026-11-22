@@ -13,6 +13,8 @@ namespace Storky.Editor
     {
         const string Root="Assets/_Game/";
         const string Fbx=Root+"Art/Environment/BirdIsland/Storky_BirdIsland.fbx";
+
+        // Materyal ve katman hazırlığı
         static Material Material(string name, Color color, string shader="Universal Render Pipeline/Lit")
         {
             string path=Root+"Materials/"+name+".mat";
@@ -30,6 +32,8 @@ namespace Storky.Editor
             {layers.GetArrayElementAtIndex(i).stringValue=name;tags.ApplyModifiedPropertiesWithoutUndo();return i;}
             throw new InvalidOperationException("No free environment culling layer.");
         }
+
+        // Kuş Adası sahnesini kurma
         public static string Build()
         {
             if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop Play before authoring.");
@@ -59,6 +63,8 @@ namespace Storky.Editor
             // Preserve the entire original bird hierarchy; remove only other scene roots.
             Undo.IncrementCurrentGroup();int undo=Undo.GetCurrentGroup();Undo.SetCurrentGroupName("Replace training field with Bird Island");
             foreach(var go in scene.GetRootGameObjects())if(go!=player.gameObject)Undo.DestroyObjectImmediate(go);
+
+            // Ada modeli, görünürlük ve çarpışmalar
             var island=(GameObject)PrefabUtility.InstantiatePrefab(model,scene);island.name="Bird Island - 600m";
             Undo.RegisterCreatedObjectUndo(island,"Add Bird Island");
             PrefabUtility.UnpackPrefabInstance(island,PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
@@ -90,6 +96,8 @@ namespace Storky.Editor
                     lod.RecalculateBounds();lods++;
                 }
             }
+
+            // Işık, gökyüzü ve kamera
             var sun=new GameObject("Sun").AddComponent<Light>();sun.type=LightType.Directional;sun.intensity=1.45f;
             sun.color=new Color(1,.955f,.87f);sun.shadows=LightShadows.Soft;sun.shadowStrength=.8f;
             sun.transform.rotation=Quaternion.Euler(46,-32,0);sun.transform.SetParent(env.transform);
@@ -110,6 +118,8 @@ namespace Storky.Editor
             cameraData.requiresColorTexture=false;cameraData.requiresDepthTexture=false;
             float[] distances=new float[32];distances[detailLayer]=330;distances[buildingLayer]=1500;
             camera.layerCullDistances=distances;camera.gameObject.AddComponent<IslandViewSettings>();
+
+            // Sahneye özel URP ayarları
             var pipeline=GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
             if(pipeline)
             {
@@ -125,6 +135,8 @@ namespace Storky.Editor
             }
             QualitySettings.vSyncCount=1;Application.targetFrameRate=60;
             QualitySettings.lodBias=1;QualitySettings.maximumLODLevel=0;
+
+            // Deniz yüzeyi
             // A two-triangle opaque surface covers the far clip even at altitude.
             const string seaMeshPath=Root+"Art/Environment/BirdIsland/OceanQuad.asset";
             var seaMesh=AssetDatabase.LoadAssetAtPath<Mesh>(seaMeshPath);
@@ -140,6 +152,8 @@ namespace Storky.Editor
             ocean.transform.SetParent(env.transform);ocean.layer=4;ocean.GetComponent<MeshFilter>().sharedMesh=seaMesh;
             var seaRenderer=ocean.GetComponent<MeshRenderer>();seaRenderer.sharedMaterial=seaMat;seaRenderer.shadowCastingMode=ShadowCastingMode.Off;seaRenderer.receiveShadows=false;
             ocean.GetComponent<InfiniteOcean>().follow=camera.transform;
+
+            // Oyuncunun başlangıç konumu
             // Spawn in the open forecourt, with the bird facing away from production.
             var court=renderers.First(r=>r.name=="Factory_Courtyard");
             var hall=renderers.First(r=>r.name=="Factory_01_Production_Hall");
@@ -153,6 +167,8 @@ namespace Storky.Editor
             player.followCamera=camera;player.walkSpeed=1.4f;player.flightSpeed=14;player.maxAirSpeed=62;
             player.environmentMask=(1<<0)|(1<<detailLayer)|(1<<buildingLayer);
             camera.transform.position=spawn-forward*5.5f+Vector3.up*2.5f;camera.transform.LookAt(spawn+Vector3.up*.85f);
+
+            // Kıyı hava akımı
             // One light updraft, with no extra stamina regeneration.
             var thermal=new GameObject("Coastal Updraft");thermal.transform.SetParent(env.transform);
             var lightHouse=renderers.First(r=>r.name=="East_Headland_Lighthouse");thermal.transform.position=lightHouse.bounds.center+Vector3.up*18;

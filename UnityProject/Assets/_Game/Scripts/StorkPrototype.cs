@@ -9,6 +9,7 @@ namespace Storky
     [RequireComponent(typeof(CharacterController))]
     public sealed class StorkPrototype : MonoBehaviour
     {
+        // Sahne bağlantıları ve hareket ayarları
         public Transform visual;
         public Animator animator;
         public Camera followCamera;
@@ -20,6 +21,8 @@ namespace Storky
         public float flapSpeedImpulse = 5.5f, flapLiftImpulse = 3.2f, seaLevel;
         public float recoverySpeedImpulse = 11f, recoveryLift = 9f, recoveryDuration = 2f;
         public LayerMask environmentMask = 1;
+
+        // Oyuncunun okunabilir durumu
         public string Mode => mode;
         public string DeviceFamily => family;
         public float DistanceTravelled => distance;
@@ -35,10 +38,10 @@ namespace Storky
         public float DiveCharge => diveCharge;
         public float RecoveryRemaining => recoveryRemaining;
         public Vector3 VisualBodyCenter => bodyBone ? bodyBone.position : transform.position;
-        public event Action InteractionRequested;
 
+        // Giriş, hareket ve sahne durumu
         InputActionMap controls;
-        InputAction move, look, flap, dive, roll, reset, interact, pause;
+        InputAction move, look, flap, dive, roll, pause;
         CharacterController body;
         Vector3 velocity, spawn, visualRestPosition;
         Transform bodyBone;
@@ -50,6 +53,8 @@ namespace Storky
         string mode = "Idle", state = "", family = "Keyboard";
         bool airborne, paused, previousCursorVisible;
         CursorLockMode previousCursorLock;
+
+        // Dayanıklılık göstergesinin durumu
         VisualElement staminaRing;
         PanelSettings panelSettings;
         float displayedStamina = 1f;
@@ -57,8 +62,17 @@ namespace Storky
         Renderer[] characterRenderers;
         Vector2 staminaRingPosition;
         bool hasStaminaRingPosition;
+
+        // Kamera, duraklatma ve animasyon durumu
+        FlightSettings settings;
+        FlightPauseMenu menu;
+        Vector3 cameraAnchor;
+        bool anchorReady;
+        float priorTimeScale;
+        bool priorAudioPause;
         int diveHash, flyHash, glideHash, walkHash, takeoffHash, idleHash;
 
+        // Unity yaşam döngüsü ve giriş kurulumu
         void Awake()
         {
             body = GetComponent<CharacterController>();
@@ -81,9 +95,9 @@ namespace Storky
             roll = controls.AddAction("AirRoll", InputActionType.Value);
             roll.AddCompositeBinding("1DAxis").With("Negative", "<Keyboard>/q").With("Positive", "<Keyboard>/e");
             roll.AddCompositeBinding("1DAxis").With("Negative", "<Gamepad>/leftShoulder").With("Positive", "<Gamepad>/rightShoulder");
-            reset = Button("Reset", "<Keyboard>/r", "<Gamepad>/select");
-            interact = Button("Interact", "<Keyboard>/f", "<Gamepad>/buttonWest");
             pause = Button("Pause", "<Keyboard>/escape", "<Gamepad>/start");
+            settings = FlightSettings.Load();
+            menu = new FlightPauseMenu(staminaRing.parent, settings, controls, () => SetPaused(false), PreviewCamera);
             foreach (var a in controls.actions) a.performed += DetectDevice;
             InputSystem.onDeviceChange += DeviceChanged;
             if (Gamepad.current != null) SetDevice(Gamepad.current);
@@ -107,12 +121,14 @@ namespace Storky
         }
         void OnDisable()
         {
-            controls?.Disable(); if (paused) {Time.timeScale=1; paused=false;}
+            controls?.Disable(); if (paused) SetPaused(false);
             if (staminaRing != null) staminaRing.visible = false;
             Cursor.lockState=previousCursorLock; Cursor.visible=previousCursorVisible;
         }
         void OnDestroy() { InputSystem.onDeviceChange -= DeviceChanged; controls?.Dispose(); Destroy(panelSettings); }
         void OnApplicationFocus(bool focused) { if(focused && !paused) SetCursor(true); }
+
+        // İmleç ve giriş cihazı
         void SetCursor(bool locked) { Cursor.lockState=locked?CursorLockMode.Locked:CursorLockMode.None; Cursor.visible=!locked; }
         void DeviceChanged(InputDevice device, InputDeviceChange change)
         {
@@ -130,21 +146,23 @@ namespace Storky
             family=id.Contains("dual")||id.Contains("playstation")?"PlayStation":id.Contains("switch")||id.Contains("nintendo")?"Switch":"Xbox";
         }
 
+        // Kare başına giriş ve hareket
         void Update()
         {
-            if (pause.WasPressedThisFrame())
+            if (paused)
             {
-                paused=!paused;Time.timeScale=paused?0:1;SetCursor(!paused);
+                menu.Tick(pause.WasPressedThisFrame());
                 return;
             }
-            if(paused)return;
+            if (pause.WasPressedThisFrame()) { SetPaused(true); return; }
             float dt=Mathf.Min(Time.deltaTime,.05f);
-            if(reset.WasPressedThisFrame() || transform.position.y < seaLevel+.12f) {ResetPlayer();return;}
-            if(interact.WasPressedThisFrame()) InteractionRequested?.Invoke();
+            if(transform.position.y < seaLevel+.12f) {ResetPlayer();return;}
             Vector2 cameraInput=look.ReadValue<Vector2>();
+            cameraInput *= look.activeControl?.device is Gamepad ? settings.stickSensitivity : settings.mouseSensitivity;
+            if (settings.invertY) cameraInput.y = -cameraInput.y;
             if(look.activeControl?.device is Gamepad) {cameraYaw+=cameraInput.x*125*dt;cameraPitch-=cameraInput.y*95*dt;}
             else {cameraYaw+=cameraInput.x*.12f;cameraPitch-=cameraInput.y*.12f;}
-            cameraPitch=Mathf.Clamp(cameraPitch,-55,78);
+            cameraPitch=Mathf.Clamp(cameraPitch,-55-settings.angle+17,78-settings.angle+17);
             Vector2 input=Vector2.ClampMagnitude(move.ReadValue<Vector2>(),1);
             flapCooldown=Mathf.Max(0,flapCooldown-dt);flapVisual=Mathf.Max(0,flapVisual-dt);launchTime=Mathf.Max(0,launchTime-dt);
             bool grounded=body.isGrounded;
@@ -174,6 +192,7 @@ namespace Storky
             UpdateAnimation(input.magnitude);
         }
 
+        // Yürüyüş, uçuş ve kanat vuruşu
         void SimulateGround(Vector2 input,bool grounded,float dt)
         {
             Vector3 direction=Quaternion.Euler(0,cameraYaw,0)*new Vector3(input.x,0,input.y);
@@ -246,6 +265,8 @@ namespace Storky
         }
         public void AddUpdraft(float acceleration) {updraftAcceleration=Mathf.Clamp(acceleration,0,2);}
         public void ClearUpdraft() {updraftAcceleration=0;}
+
+        // Animasyon ve kare sonu güncellemesi
         void UpdateAnimation(float input)
         {
             if(!animator)return;
@@ -259,18 +280,55 @@ namespace Storky
         {
             ApplyBodyPose();
             if(!followCamera || paused)return;
-            float dt=Mathf.Min(Time.deltaTime,.05f);
-            Vector3 target=transform.position+Vector3.up*.85f;
-            Vector3 back=Quaternion.Euler(cameraPitch,cameraYaw,0)*Vector3.back;
-            float desiredLength=airborne?7.5f:5.5f;
-            if(Physics.SphereCast(target,.22f,back,out RaycastHit hit,desiredLength,environmentMask,QueryTriggerInteraction.Ignore))desiredLength=Mathf.Max(.4f,hit.distance-.15f);
-            cameraLength=desiredLength<cameraLength?desiredLength:Mathf.Lerp(cameraLength,desiredLength,1-Mathf.Exp(-7*dt));
-            Vector3 pos=target+back*cameraLength;
-            pos.y=Mathf.Max(seaLevel+.3f,pos.y);
-            followCamera.transform.position=pos;followCamera.transform.LookAt(target);
-            followCamera.fieldOfView=Mathf.Lerp(followCamera.fieldOfView,airborne?Mathf.Lerp(65,78,airSpeed/maxAirSpeed):62,1-Mathf.Exp(-3*dt));
+            PositionCamera(false);
             UpdateStaminaRing();
         }
+
+        // Duraklatma ve devam etme
+        void SetPaused(bool value)
+        {
+            paused = value;
+            if (value)
+            {
+                priorTimeScale = Time.timeScale;
+                priorAudioPause = AudioListener.pause;
+            }
+            Time.timeScale = value ? 0 : priorTimeScale;
+            AudioListener.pause = value || priorAudioPause;
+            SetCursor(!value);
+            staminaRing.visible = !value;
+            if (value) menu.Open(); else menu.Close();
+        }
+
+        // Kamera takibi ve önizleme
+        void PreviewCamera()
+        {
+            if (paused && followCamera) PositionCamera(true);
+        }
+
+        void PositionCamera(bool preview)
+        {
+            float dt=Mathf.Min(Time.deltaTime,.05f);
+            Vector3 target=transform.position+Vector3.up*settings.Height;
+            const float followRate = 69;
+            cameraAnchor = !anchorReady || preview ? target : Vector3.Lerp(cameraAnchor, target, 1-Mathf.Exp(-followRate*dt));
+            anchorReady = true;
+            Vector3 back=Quaternion.Euler(Mathf.Clamp(cameraPitch+settings.angle-17,-55,78),cameraYaw,0)*Vector3.back;
+            float speedFraction = airborne ? Mathf.InverseLerp(flightSpeed,maxAirSpeed,airSpeed) : 0;
+            Vector3 offset = cameraAnchor-target + back*(settings.Distance + speedFraction*settings.SpeedDistance);
+            float desiredLength=offset.magnitude;
+            if (desiredLength > .001f) back = offset / desiredLength;
+            if(Physics.SphereCast(target,.22f,back,out RaycastHit hit,desiredLength,environmentMask,QueryTriggerInteraction.Ignore))desiredLength=Mathf.Max(.4f,hit.distance-.15f);
+            cameraLength=preview || desiredLength<cameraLength?desiredLength:Mathf.Lerp(cameraLength,desiredLength,1-Mathf.Exp(-7*dt));
+            Vector3 pos=target+back*cameraLength;
+            pos.y=Mathf.Max(seaLevel+.3f,pos.y);
+            Vector3 forward = target - pos;
+            followCamera.transform.SetPositionAndRotation(pos, Quaternion.LookRotation(forward.sqrMagnitude > .000001f ? forward : -back));
+            float targetFov = 62 + (airborne ? Mathf.Lerp(3,16,airSpeed/maxAirSpeed) : 0);
+            followCamera.fieldOfView=preview ? targetFov : Mathf.Lerp(followCamera.fieldOfView,targetFov,1-Mathf.Exp(-3*dt));
+        }
+
+        // Gövde pozu
         void ApplyBodyPose()
         {
             if(!visual)return;
@@ -282,14 +340,19 @@ namespace Storky
             visual.localRotation=orientation*initialVisual;
             visual.localPosition=visualRestPosition+initialVisual*pivot-visual.localRotation*pivot;
         }
+
+        // Başlangıç konumuna dönüş
         public void ResetPlayer()
         {
+            anchorReady=false;
             body.enabled=false;transform.SetPositionAndRotation(spawn,Quaternion.Euler(0,spawnYaw,0));body.enabled=true;
             velocity=Vector3.zero;airborne=false;launchTime=0;airSpeed=0;rollAngle=0;flightPitch=0;liftImpulse=0;updraftAcceleration=0;
             groundSpeed=0;rollVelocity=0;diveCharge=0;recoveryRemaining=0;recoveryLiftAmount=0;
             if(visual){visual.localPosition=visualRestPosition;visual.localRotation=initialVisual;}
             stamina=staminaCapacity;flapCooldown=0;flapVisual=0;heading=spawnYaw;cameraYaw=spawnYaw;cameraPitch=17;distance=0;mode="Idle";
         }
+
+        // Dayanıklılık göstergesi
         void CreateStaminaRing()
         {
             characterRenderers = GetComponentsInChildren<Renderer>(true);

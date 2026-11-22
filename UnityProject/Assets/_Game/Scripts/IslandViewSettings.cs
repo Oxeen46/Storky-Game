@@ -5,7 +5,10 @@ namespace Storky
     [RequireComponent(typeof(Camera))]
     public sealed class IslandViewSettings : MonoBehaviour
     {
+        // Görünürlük mesafeleri
         public float viewDistance=3000, smallDetailDistance=330, buildingDistance=1500;
+
+        // Kamera ve ada görünürlüğünü uygulama
         void OnEnable()
         {
             var camera=GetComponent<Camera>();

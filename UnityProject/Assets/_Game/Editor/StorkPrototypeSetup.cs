@@ -10,6 +10,8 @@ namespace Storky.Editor
     public static class StorkPrototypeSetup
     {
         const string Root = "Assets/_Game/";
+
+        // Eğitim sahnesi ve model içe aktarma
         public static string Build()
         {
             if (SceneManager.GetActiveScene().isDirty) throw new System.InvalidOperationException("Save the current scene before building the test area.");
@@ -36,6 +38,8 @@ namespace Storky.Editor
             }
             importer.clipAnimations = clips;
             importer.SaveAndReimport();
+
+            // Renk paleti ve zemin dokusu
             var texImporter = (TextureImporter)AssetImporter.GetAtPath(Root + "Art/Stork/Stork_Palette.png");
             texImporter.filterMode = FilterMode.Point; texImporter.mipmapEnabled = false;
             texImporter.textureCompression = TextureImporterCompression.Uncompressed; texImporter.SaveAndReimport();
@@ -61,6 +65,8 @@ namespace Storky.Editor
             var floorMaterial = Material("TrainingGrid", Color.white);
             floorMaterial.SetTexture("_BaseMap", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/TrainingGrid.png"));
             floorMaterial.SetTextureScale("_BaseMap", new Vector2(30,30)); floorMaterial.SetFloat("_Smoothness", 0);
+
+            // Sahne, aydınlatma ve kamera
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(.65f,.70f,.76f);
@@ -74,6 +80,8 @@ namespace Storky.Editor
             var camera = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener)).GetComponent<Camera>();
             camera.tag = "MainCamera"; camera.fieldOfView = 60; camera.farClipPlane = 350;
             camera.clearFlags = CameraClearFlags.SolidColor; camera.backgroundColor = RenderSettings.fogColor;
+
+            // Oyuncu, rig ve animasyonlar
             var player = new GameObject("Stork Player");
             var body = player.AddComponent<CharacterController>(); body.height = 1.35f; body.radius = .24f; body.center = new Vector3(0,.7f,0); body.stepOffset = .2f; body.skinWidth = .025f;
             var visualPivot = new GameObject("Visual").transform; visualPivot.SetParent(player.transform, false);
@@ -92,6 +100,8 @@ namespace Storky.Editor
             var movement = player.AddComponent<StorkPrototype>(); movement.visual = visualPivot; movement.animator = animator; movement.followCamera = camera;
             player.transform.position = new Vector3(0,.05f,0);
             camera.transform.position = new Vector3(0,3,-5); camera.transform.LookAt(player.transform.position+Vector3.up*.9f);
+
+            // Mesafe ve yön işaretleri
             // Axis lanes and numbered beacons make distance and direction readable during flight.
             var blue = Material("North Blue", new Color(.08f,.45f,.85f));
             var orange = Material("East Orange", new Color(.95f,.39f,.1f));
@@ -104,6 +114,8 @@ namespace Storky.Editor
             Selection.activeGameObject = player;
             return "Created FlightTest, six-clip Generic rig, prefab, grid and controller. Model renderer bounds: " + renderer.bounds;
         }
+
+        // Materyal ve sahne işareti yardımcıları
         static Material Material(string name, Color color)
         {
             var m = new Material(Shader.Find("Universal Render Pipeline/Lit")); m.name = name;

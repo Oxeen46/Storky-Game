@@ -4,8 +4,11 @@ namespace Storky
 {
     public sealed class InfiniteOcean : MonoBehaviour
     {
+        // Deniz düzlemi ayarları
         public Transform follow;
         public float seaLevel;
+
+        // Denizi kamerayla birlikte konumlandırma
         void LateUpdate()
         {
             if(!follow)return;

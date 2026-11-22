@@ -1,5 +1,6 @@
 Shader "Storky/Stylized Ocean"
 {
+    // Deniz renkleri
     Properties
     {
         _BaseColor("Sea", Color) = (0.07,0.30,0.40,1)
@@ -20,10 +21,14 @@ Shader "Storky/Stylized Ocean"
             #pragma multi_compile_fog
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
+            // Materyal verisi
             CBUFFER_START(UnityPerMaterial)
                 half4 _BaseColor;
                 half4 _CrestColor;
             CBUFFER_END
+
+            // Köşe girdileri ve piksel verisi
             struct Attributes { float4 positionOS:POSITION; };
             struct Varyings { float4 positionCS:SV_POSITION; float3 positionWS:TEXCOORD0; half fog:TEXCOORD1; };
             Varyings Vert(Attributes input)
@@ -34,6 +39,8 @@ Shader "Storky/Stylized Ocean"
                 o.fog=ComputeFogFactor(o.positionCS.z);
                 return o;
             }
+
+            // Deniz rengi, ışık ve sis
             half4 Frag(Varyings input):SV_Target
             {
                 float2 p=input.positionWS.xz;
