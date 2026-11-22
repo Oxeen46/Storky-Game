@@ -12,13 +12,14 @@
 
 | Alan | Devralırken bilinmesi gereken |
 | --- | --- |
-| 🧭 **Son oturum** | **[Oturum 4](#oturum-4)** · Modelleme standardı, 180 FPS hedefi ve karakteri takip eden dayanıklılık göstergesi tamamlandı. Hedef donanım ölçümü bekliyor. |
+| 🧭 **Son oturum** | **[Oturum 5](#oturum-5)** · Duraklatma ve ayar menüleri eklendi, yatay uçuş dönüşü ayarlanabilir oldu. |
 | 🎯 **Oyun hedefi** | Windows PC’de stilize low poly uçuş ve keşif. Leylek, bebek üretim ve kargolama şirketindeki terfi yarışında ilerler. Dünya ve görev tasarımı [GDD’de](Storky_GDD.pdf). |
 | 🏝️ **Oynanabilir sahne** | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity). 600×600 m Kuş Adası, 70 dış bina kütlesi, fabrika avlusu başlangıcı, dokusuz deniz ve tek güneş. |
 | 🪽 **Çalışan hareket** | Hızla eşleşen yürüyüş, kalkış ve tek vuruşlu kanat çırpma, otomatik süzülme, stamina, gövde merkezli Air Roll, dalıştan toparlanma ve serbest fare kamerası. Deniz teması fabrika avlusuna döndürür. |
-| 🧩 **Tasarımda bekleyenler** | İnsan Adası, küçük keşif adaları, iç mekânlar, hikâye, görev, diyalog ve kayıt sistemleri. Etkileşim girişi ayrılmış durumda. |
+| ⏸️ **Duraklatma ve ayarlar** | `Esc` ve `Start / Options` sabit. Ses, Grafik, Kontroller ve Kamera sayfaları var. Ana menüye dönme düğmesi pasif. Oyuncu tercihleri yerelde saklanıyor. |
+| 🧩 **Tasarımda bekleyenler** | Ana menü, İnsan Adası, küçük keşif adaları, iç mekânlar, hikâye, görev, diyalog ve kayıt sistemleri. |
 | 🧰 **Teknik ortam** | Unity 6000.3.27f1, URP 17.3.0, Input System 1.20.1. [Editor sürümü](../UnityProject/ProjectSettings/ProjectVersion.txt) · [Paket manifesti](../UnityProject/Packages/manifest.json) · [Paket kilidi](../UnityProject/Packages/packages-lock.json) |
-| 🧪 **Test durumu** | Son hareket düzenlemesinde 13 hedefli Play kontrolü geçti. Fiziksel kontrolcüyle oyun hissi, eğimli arazide ayak teması, temiz klonla açılış ve hedef donanım ölçümü sırada. Ölçüm koşulları [Oturum 3’te](#oturum-3). |
+| 🧪 **Test durumu** | Menü akışı ve yatay dönüş çarpanı Unity Play modunda doğrulandı. Kullanıcının klavyede bildirdiği takip takılması açık. Windows ekran modu ve çözünürlük geçişleri ile hedef donanım ölçümü bekliyor. |
 
 <a id="proje-kararlari"></a>
 
@@ -33,10 +34,11 @@
 | Görsel yön ve ada kapsamı | 🟢 Geçerli | Oyun sıcak ve stilize low poly hedefliyor. Karakter ve ada sıfırdan tasarlanabilir. Nihai biçim, oranlar ve yerleşim oyun kamerası ve oynanış ihtiyaçlarına göre seçilir. | [GDD](Storky_GDD.pdf) · [Oturum 3](#oturum-3) |
 | Karakter aktarımı | ⚪ Açık | Üretim rig’i ve klip düzeni gerekli pozlar, geçişler ve hareket sistemiyle uyum sınandıktan sonra seçilecek. Mevcut aktarımın teknik ayrıntıları oturum arşivinde. | [Oturum 2](#oturum-2) · [Oturum 3](#oturum-3) |
 | Hareket ve giriş | 🟢 Geçerli | Fare kamerası tuş tutmadan çalışır. Air Roll gövde ekseninde döner, rotaya otomatik sapma eklemez ve giriş bırakıldığında açıyı korur. Kanat vuruşu stamina harcar. Dalıştan toplanan destek stamina olmadan kullanılabilir. Hava akımı ilave stamina doldurmaz. | [Kontroller](../README.md#kontroller) · [Oturum 3](#oturum-3) |
-| Hareket dengesi | 🟡 Deneme | Yürüyüş 1,4 m/s, azami hava hızı 62 m/s, roll 220°/s. Kanat vuruşunun ileri katkısı 5,5 m/s. Dalış desteği birikime göre en fazla 11 m/s katkı sağlar ve 2 s sürer. | [Oturum 3](#oturum-3) |
+| Hareket dengesi | 🟡 Deneme | Yürüyüş 1,4 m/s, azami hava hızı 62 m/s, Air Roll 220°/s. Yatay uçuş dönüş çarpanı 0,5×–4×, varsayılan 2×. Kanat vuruşunun ileri katkısı 5,5 m/s. Dalış desteği birikime göre en fazla 11 m/s katkı sağlar ve 2 s sürer. | [Oturum 3](#oturum-3) · [Oturum 5](#oturum-5) |
+| Duraklatma ve ayarlar | 🟢 Geçerli | Donmuş sahne yarı saydam menünün arkasında kalır. Ayarlar üç sütunda kategori, değer ve açıklamayı gösterir. Duraklatma sabit, diğer etkin hareket tuşları yeniden atanabilir. Grafik kalitesi ile çevre ve müzik seviyeleri tercih olarak saklanır. | [Oturum 5](#oturum-5) |
 | Deniz ve görünürlük | 🟡 Deneme | Unity’de kamerayı takip eden iki üçgenli dokusuz deniz, sis ve tek yönlü güneş. Görüş 3.000 m, küçük detay 330 m, ev üst sınırı 1.500 m, gölge 110 m. Hedef donanımda ölçülecek. | [Oturum 3](#oturum-3) |
 | Dünya ve oyun döngüsü | 🔵 Plan | İki ana ada ve küçük keşif adaları, terfi yarışı, görevler, kasaba etkileşimleri ve mini oyunlar. Uygulama sırası kullanıcıyla belirlenecek. | [GDD](Storky_GDD.pdf) |
-| Kamera ve performans hedefi | 🟢 Geçerli | Oyuncu leyleği yakın üçüncü şahıs kameradan izler. Ryzen 3 1200 / Radeon RX 560 sınıfı Windows PC’de yoğun oynanışta 180 FPS hedeflenir (kare başına yaklaşık 5,56 ms). Çözünürlük ve kalite ayarı açık. | [GDD, s. 6](Storky_GDD.pdf#page=6) · [Oturum 4](#oturum-4) |
+| Kamera ve performans hedefi | 🟢 Geçerli | Oyuncu leyleği yakın üçüncü şahıs kameradan izler. Ryzen 3 1200 / Radeon RX 560 sınıfı Windows PC’de yoğun oynanışta 180 FPS hedeflenir (kare başına yaklaşık 5,56 ms). Ölçümde kullanılacak çözünürlük ve kalite seviyesi açık. | [GDD, s. 6](Storky_GDD.pdf#page=6) · [Oturum 4](#oturum-4) |
 | Modelleme ve optimizasyon | 🟢 Geçerli | Model üretiminde ve YZ’ye verilen tariflerde aşağıdaki [model standardı](#model-standardi) uygulanır. | [Oturum 4](#oturum-4) |
 | Dayanıklılık göstergesi | 🟢 Geçerli | Sol üst bilgi paneli kaldırıldı. Leyleğin gövdesini takip eden halka ekrana göre dik kalır ve modelin ekran sınırlarının dışına yerleşir. Kalan kanat vuruşu hakkı sıfırsa kırmızı, birse turuncu, iki ve üzeriyse yeşil. Yetersiz dayanıklılıkla vuruş denenirse kırmızı halka yanıp söner. | [Oturum 4](#oturum-4) |
 | Oyun modu ve dağıtım | ⚪ Açık | Oyun modu, ekipte inceleme düzeni, dağıtım ve varlıkların yeniden kullanım koşulları belirlenmeyi bekliyor. | [GDD](Storky_GDD.pdf) · [Oturum 1](#oturum-1) |
@@ -87,8 +89,8 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 ## 🛠️ Sıradaki işler
 
 1. **Üretim temeli.** Yakın üçüncü şahıs kamerayla örnek bir çevrede uçuş ve inişi dene. Leyleğin kanat hareketi ve konacağı yüzey okunuyor mu kontrol et. Hedef sınıftaki PC’de Windows derlemesini aynı yoğun rotada ölç. Çözünürlük, kalite ayarı, ortalama FPS ve en yavaş %1’lik karelerin sürelerini kaydet. Sonuçlarla model ve çevre bütçelerini belirle.
-2. **Oyun hissi.** `FlightTest`’te yürüyüş temposunu, Air Roll’u, kanat vuruşunu ve sıfır stamina ile dalıştan çıkışı kullanıcıyla dene. Eğim, çatı inişi ve kamera çarpışmalarını farklı rotalarda kontrol et.
-3. **Başka kurulumda doğrulama.** Git LFS ile temiz klondan açılışı, fiziksel gamepad’i ve hedef Windows donanımını sınamayı planla. Bir Windows build’i alınacaksa [build sahne listesini](../UnityProject/ProjectSettings/EditorBuildSettings.asset) kontrol et. Kayıtlı listede `SampleScene` etkin.
+2. **Oyun hissi.** `FlightTest`’te yeni yatay dönüş hassasiyetini, yürüyüşü, Air Roll’u ve inişi kullanıcıyla dene. Klavyede yön değiştirirken bildirilen takip takılması ile gerçek kare süresi arasındaki ilişki açık.
+3. **Başka kurulumda doğrulama.** Git LFS ile temiz klondan açılışı, fiziksel gamepad ile menü kullanımını ve Windows derlemesinde ekran modu ile çözünürlük geçişlerini sına. Derlemeden önce [build sahne listesini](../UnityProject/ProjectSettings/EditorBuildSettings.asset) kontrol et. Kayıtlı listede `SampleScene` etkin.
 4. **Sonraki oyun işi.** Kullanıcı GDD’yi gözden geçirdikten sonra İnsan Adası, keşif adaları ve görev sistemleri arasından sonraki kapsamı belirle.
 
 **Açık kaynak kontrolü.** Leyleğin Blender kaynağını yeniden dışa aktarmadan önce repodaki `.blend` ile Oturum 2’de kullanılan farklı açık kopyanın eşleşmesini doğrula.
@@ -101,6 +103,7 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 | --- | --- |
 | Sahneyi oynat, başlangıcı veya çevreyi incele | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity) · [BirdIsland Prefab](../UnityProject/Assets/_Game/Prefabs/BirdIsland.prefab) · [StorkPlayer Prefab](../UnityProject/Assets/_Game/Prefabs/StorkPlayer.prefab) |
 | Girişler, hareket, kamera, stamina ve dalış | [StorkPrototype.cs](../UnityProject/Assets/_Game/Scripts/StorkPrototype.cs). Prototipin tuş eşlemeleri bu dosyada oluşturuluyor. |
+| Duraklatma, ayarlar ve tuş atamaları | [FlightPauseMenu.cs](../UnityProject/Assets/_Game/Scripts/FlightPauseMenu.cs) · [FlightSettings.cs](../UnityProject/Assets/_Game/Scripts/FlightSettings.cs) · [FlightBinding.cs](../UnityProject/Assets/_Game/Scripts/FlightBinding.cs) · [FlightPause.uss](../UnityProject/Assets/_Game/Resources/FlightPause.uss) |
 | Yürüyüş, Animator ve kalibrasyon | [Stork.controller](../UnityProject/Assets/_Game/Animations/Stork.controller) · [Yürüyüş klibi](../UnityProject/Assets/_Game/Animations/Stork_Walk_GroundMatched.anim) · [StorkMotionCalibration.cs](../UnityProject/Assets/_Game/Editor/StorkMotionCalibration.cs) |
 | Su, sis, gökyüzü, görünürlük ve hava akımı | [InfiniteOcean.cs](../UnityProject/Assets/_Game/Scripts/InfiniteOcean.cs) · [IslandViewSettings.cs](../UnityProject/Assets/_Game/Scripts/IslandViewSettings.cs) · [StorkUpdraft.cs](../UnityProject/Assets/_Game/Scripts/StorkUpdraft.cs) · [Shader’lar](../UnityProject/Assets/_Game/Shaders/) · [Ada URP varlığı](../UnityProject/Assets/_Game/Island_RenderPipeline.asset) |
 | Leyleği veya adayı modelle ve içe aktar | [Leylek Blender](../ArtSource/Stork/Stork_Hero_Lite.blend) → [Unity karakter varlıkları](../UnityProject/Assets/_Game/Art/Stork/) · [Ada Blender](../ArtSource/Environment/BirdIsland/Storky_BirdIsland.blend) → [Unity ada varlıkları](../UnityProject/Assets/_Game/Art/Environment/BirdIsland/) |
@@ -173,6 +176,24 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 - Kullanıcı, varlık türüne göre LOD0 aralıklarını, oyuncu leyleği için yaklaşık 4.000 üçgen ve tek materyal hedefini onayladı. Unity içi ilk FPS ölçümü bekliyor.
 - Bilgi panelinin yerini gövdenin sol üstünü takip eden dayanıklılık halkası aldı. Dolgu harcanan dayanıklılığı kademeli gösterir. Kamera çevrildiğinde veya Air Roll sırasında kanatla çakışma olursa halka boş bir kenara geçer. Renk eşikleri kalan vuruş hakkına bağlandı.
 - FlightTest Play modunda kanat vuruşunun dayanıklılığı harcadığı, dolgunun kademeli azaldığı ve yetersiz dayanıklılık uyarısının tetiklendiği doğrulandı. Örneklenen 96 kamera açısı ve Air Roll kombinasyonunda halka görünür kaldı ve modelin ekran sınırlarıyla çakışmadı. UI Toolkit teması eklendikten sonra Play kontrolünde Console 0 hata ve 0 uyarı gösterdi.
+
+</details>
+
+<a id="oturum-5"></a>
+
+### Oturum 5 · Duraklatma, ayarlar ve yatay dönüş
+
+<details>
+<summary>Menü kararları, doğrulama ve kullanıcı geri bildirimi</summary>
+
+- `FlightTest` yarı saydam duraklatma menüsü açıyor. Devam et seçili gelir. Ayarlar kategori, ayar satırı ve açıklama sütunlarına ayrılır. Ana menüye dönme düğmesi pasif. Başlangıca dönme ve etkileşim girişleri kaldırıldı. Denize temas edince avluya dönüş sürüyor.
+- Ana ses uygulanır. Çevre ve müzik seviyeleri ile Dengeli/Yüksek grafik kalitesi tercih olarak kaydedilir. V-Sync açıkken FPS çubuğu pasiftir. Çubuk 30–360 FPS ve sınırsız seçeneklerini sunar. Kolda sol çubuk birer, sağ çubuk onar FPS değiştirir. Çözünürlük ve ekran modu Windows derlemesine bağlandı.
+- Klavye ve kol atamaları ayrı düzenlenir ve çakışan tuşlar takas edilebilir. Fare ve kol kamera hassasiyeti ile ters dikey eksen ayrı ayarlanır. Yatay uçuş dönüşü için varsayılan 2× seçildi. Tam dönüş yetkisinde 65°/s taban hız 130°/s olur. Air Roll 220°/s.
+- Kamera ayarlarında takip mesafesi, yükseklik ve hızla uzaklaşma 0–10 ölçeğinde. Varsayılan 5 değerleri sırasıyla 3,6 m, 1,75 m ve en çok 1 m ek mesafeye karşılık gelir. Kamera ayarları duraklatılmış sahnede önizlenebilir ve varsayılanlara dönebilir.
+- **Doğrulanan.** Unity Play modunda menü açma ve devam etme, yanlışlıkla kanat vuruşunu önleme, FPS çubuğu, V-Sync geçişi, tuş takası, kamera önizlemesi ve dönüş çarpanı kontrol edildi. Sanal gamepad kullanıldı.
+- **Kullanıcı geri bildirimi.** Klavyede hızlı `A/D` veya `W/S` değişimlerinde takılma hissedildi. Kullanıcı kolda aynı sorunu görmedi. Denenen fare, klavye ve takip yumuşatmaları sorunu gidermeyince geri alındı.
+- **Bekleyen doğrulama.** Fiziksel kolda menü kullanımı, Windows derlemesinde ekran seçenekleri ve klavyedeki takip takılmasının kaynağı açık. Ada kamera bileşeninin açılışta V-Sync ve FPS değerlerini de yazması ölçümlerde hesaba katılmalı.
+- Oyun ve Editor scriptlerine işlevlerine göre Türkçe yorum başlıkları eklendi. Yeni scriptler için aynı düzen [AGENTS.md](../AGENTS.md) içinde kayıtlı.
 
 </details>
 

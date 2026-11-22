@@ -9,17 +9,18 @@ namespace Storky
         // Kaydedilen tercihler ve varsayılan değerler
         const string Key = "Storky.Settings.v1";
         public float volume = 1, mouseSensitivity = 1, stickSensitivity = 1;
+        public float turnSensitivity = 2;
         public float ambientVolume = 1, musicVolume = 1;
         public bool invertY, vsync;
         public bool fullscreen, highQuality = true;
         public int resolutionWidth, resolutionHeight;
         public int fps = 180;
         public const int Unlimited = 361;
-        public float distanceLevel = 5, heightLevel = 5, angle = 17, speedDistanceLevel = 5;
+        public float cameraDistanceLevel = 5, cameraHeightLevel = 5, speedDistanceLevel = 5;
 
         // Kamera seviyelerinin metreye dönüşümü
-        public float Distance => distanceLevel * (3f / 5);
-        public float Height => heightLevel * .25f;
+        public float Distance => cameraDistanceLevel * .72f;
+        public float Height => cameraHeightLevel * .35f;
         public float SpeedDistance => speedDistanceLevel * .2f;
         Vector2Int desktopSize;
 
@@ -66,9 +67,8 @@ namespace Storky
         public void ResetCamera()
         {
             var defaults = new FlightSettings();
-            distanceLevel = defaults.distanceLevel;
-            heightLevel = defaults.heightLevel;
-            angle = defaults.angle;
+            cameraDistanceLevel = defaults.cameraDistanceLevel;
+            cameraHeightLevel = defaults.cameraHeightLevel;
             speedDistanceLevel = defaults.speedDistanceLevel;
         }
     }

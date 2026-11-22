@@ -162,7 +162,7 @@ namespace Storky
             if (settings.invertY) cameraInput.y = -cameraInput.y;
             if(look.activeControl?.device is Gamepad) {cameraYaw+=cameraInput.x*125*dt;cameraPitch-=cameraInput.y*95*dt;}
             else {cameraYaw+=cameraInput.x*.12f;cameraPitch-=cameraInput.y*.12f;}
-            cameraPitch=Mathf.Clamp(cameraPitch,-55-settings.angle+17,78-settings.angle+17);
+            cameraPitch=Mathf.Clamp(cameraPitch,-55,78);
             Vector2 input=Vector2.ClampMagnitude(move.ReadValue<Vector2>(),1);
             flapCooldown=Mathf.Max(0,flapCooldown-dt);flapVisual=Mathf.Max(0,flapVisual-dt);launchTime=Mathf.Max(0,launchTime-dt);
             bool grounded=body.isGrounded;
@@ -214,7 +214,7 @@ namespace Storky
             flightPitch=Mathf.Clamp(flightPitch,-78,65);
             float authority=Mathf.Lerp(.45f,1,Mathf.InverseLerp(stallSpeed,22,airSpeed));
             // Air Roll rotates around the torso/forward axis; it never adds an orbit or yaw.
-            heading+=input.x*turnRate*authority*dt;
+            heading += input.x * turnRate * settings.turnSensitivity * authority * dt;
             recoveryRemaining=Mathf.Max(0,recoveryRemaining-dt);
             if(!diving && recoveryRemaining<=0 && diveCharge>=.15f && airSpeed>12 && (input.y<-.1f || flightPitch>-12))
             {
@@ -313,7 +313,7 @@ namespace Storky
             const float followRate = 69;
             cameraAnchor = !anchorReady || preview ? target : Vector3.Lerp(cameraAnchor, target, 1-Mathf.Exp(-followRate*dt));
             anchorReady = true;
-            Vector3 back=Quaternion.Euler(Mathf.Clamp(cameraPitch+settings.angle-17,-55,78),cameraYaw,0)*Vector3.back;
+            Vector3 back=Quaternion.Euler(cameraPitch,cameraYaw,0)*Vector3.back;
             float speedFraction = airborne ? Mathf.InverseLerp(flightSpeed,maxAirSpeed,airSpeed) : 0;
             Vector3 offset = cameraAnchor-target + back*(settings.Distance + speedFraction*settings.SpeedDistance);
             float desiredLength=offset.magnitude;

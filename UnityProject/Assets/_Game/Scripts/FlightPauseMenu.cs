@@ -209,9 +209,11 @@ namespace Storky
                 () => settings.stickSensitivity, v => settings.stickSensitivity = v, Factor);
             Row("Dikey kamerayı ters çevir", "Yukarı ve aşağı bakış yönünü değiştirir. Leyleğin uçuş kumandası aynı kalır.",
                 () => { settings.invertY = !settings.invertY; Settings(2, false); Select(false, 2); }, value: settings.invertY ? "Açık" : "Kapalı");
+            Slider("Sağa sola dönüş hassasiyeti", "Uçuşta leyleğin sağa ve sola dönüş hızını klavyede ve kolda ayarlar.", .5f, 4, .1f,
+                () => settings.turnSensitivity, v => settings.turnSensitivity = v, Factor);
             Row("Tuş atamaları", "Düzenlemek istediğin giriş cihazını seç.", () =>
             {
-                padBindings = !padBindings; Settings(2, false); Select(false, 3);
+                padBindings = !padBindings; Settings(2, false); Select(false, 4);
             }, value: padBindings ? "Kol" : "Klavye");
             foreach (var binding in bindings)
                 if (binding.gamepad == padBindings)
@@ -223,16 +225,14 @@ namespace Storky
         void Camera()
         {
             Slider("Takip mesafesi", "Kameranın leylekten temel uzaklığını ayarlar.", 0, 10, 1,
-                () => settings.distanceLevel, v => settings.distanceLevel = v, Level);
+                () => settings.cameraDistanceLevel, v => settings.cameraDistanceLevel = v, Level);
             Slider("Yükseklik", "Kameranın baktığı noktayı leyleğe göre yükseltir.", 0, 10, 1,
-                () => settings.heightLevel, v => settings.heightLevel = v, Level);
-            Slider("Bakış açısı", "Kameranın aşağı bakış eğimini değiştirir.", -10, 45, 1,
-                () => settings.angle, v => settings.angle = v, Degrees);
+                () => settings.cameraHeightLevel, v => settings.cameraHeightLevel = v, Level);
             Slider("Hızla uzaklaşma", "Hızlı uçuşta kameranın alacağı ek mesafe. Sıfırda uzaklaşma kapanır.", 0, 10, 1,
                 () => settings.speedDistanceLevel, v => settings.speedDistanceLevel = v, Level);
             Row("Kamera ayarlarını sıfırla", "Bu sayfadaki ayarları başlangıç değerlerine döndürür.", () =>
             {
-                settings.ResetCamera(); preview(); Settings(3, false); Select(false, 4);
+                settings.ResetCamera(); preview(); Settings(3, false); Select(false, 3);
             });
         }
 
@@ -240,7 +240,6 @@ namespace Storky
         static string Factor(float v) => v.ToString("0.00") + "×";
         static string Level(float v) => v.ToString("0");
         static string Percent(float v) => "%" + Level(v);
-        static string Degrees(float v) => v.ToString("0") + "°";
 
         Item MakeItem(VisualElement parent, string label, string help, Action activate, bool enabled, bool tab)
         {

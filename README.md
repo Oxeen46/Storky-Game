@@ -46,6 +46,8 @@ Storky, bebek üretim ve kargolama şirketinde işe başlayan bir leyleğin terf
 
 Kanat çırpılmadığında otomatik süzülme devreye girer. Konmak staminayı hızlı, süzülmek yavaş yeniler. Dalışta biriken destek, burnu kaldırırken stamina harcamadan kısa süreli hız ve yükseliş sağlar. Denize düşünce leylek fabrika avlusuna döner.
 
+Duraklatma menüsünden ses, grafik, kontroller ve kamera tercihlerini düzenleyebilirsin. Klavye ve kol atamaları ayrı kaydedilir. Sağa sola uçuş dönüşünün hassasiyeti varsayılan olarak 2×. Ayrıntılar ve bekleyen testler [Oturum 5 kaydında](docs/CALISMA_GUNLUGU.md#oturum-5).
+
 ## 📂 Kaynaklar
 
 | Aradığın şey | Dosya veya klasör |
