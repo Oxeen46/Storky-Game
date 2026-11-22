@@ -12,14 +12,14 @@
 
 | Alan | Devralırken bilinmesi gereken |
 | --- | --- |
-| 🧭 **Son oturum** | **[Oturum 5](#oturum-5)** · Duraklatma ve ayar menüleri eklendi, yatay uçuş dönüşü ayarlanabilir oldu. |
+| 🧭 **Son oturum** | **[Oturum 6](#oturum-6)** · İnsan Adası A–J greybox’ı Blender’da yeniden kuruldu ve ayrı bir Unity sahnesine aktarıldı. |
 | 🎯 **Oyun hedefi** | Windows PC’de stilize low poly uçuş ve keşif. Leylek, bebek üretim ve kargolama şirketindeki terfi yarışında ilerler. Dünya ve görev tasarımı [GDD’de](Storky_GDD.pdf). |
-| 🏝️ **Oynanabilir sahne** | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity). 600×600 m Kuş Adası, 70 dış bina kütlesi, fabrika avlusu başlangıcı, dokusuz deniz ve tek güneş. |
-| 🪽 **Çalışan hareket** | Hızla eşleşen yürüyüş, kalkış ve tek vuruşlu kanat çırpma, otomatik süzülme, stamina, gövde merkezli Air Roll, dalıştan toparlanma ve serbest fare kamerası. Deniz teması fabrika avlusuna döndürür. |
+| 🏝️ **Oynanabilir sahneler** | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity) · 600×600 m Kuş Adası, fabrika avlusu başlangıcı. [HumanIsland](../UnityProject/Assets/_Game/Scenes/HumanIsland.unity) · Yaklaşık 1.500×1.200 m İnsan Adası greybox’ı, meydan başlangıcı. |
+| 🪽 **Çalışan hareket** | Hızla eşleşen yürüyüş, kalkış ve tek vuruşlu kanat çırpma, otomatik süzülme, stamina, gövde merkezli Air Roll, dalıştan toparlanma ve serbest fare kamerası. Deniz teması oyuncuyu sahnenin başlangıç noktasına döndürür. |
 | ⏸️ **Duraklatma ve ayarlar** | `Esc` ve `Start / Options` sabit. Ses, Grafik, Kontroller ve Kamera sayfaları var. Ana menüye dönme düğmesi pasif. Oyuncu tercihleri yerelde saklanıyor. |
-| 🧩 **Tasarımda bekleyenler** | Ana menü, İnsan Adası, küçük keşif adaları, iç mekânlar, hikâye, görev, diyalog ve kayıt sistemleri. |
+| 🧩 **Tasarımda bekleyenler** | Ana menü, adalar arası geçiş, küçük keşif adaları, iç mekânlar, hikâye, görev, diyalog ve kayıt sistemleri. |
 | 🧰 **Teknik ortam** | Unity 6000.3.27f1, URP 17.3.0, Input System 1.20.1. [Editor sürümü](../UnityProject/ProjectSettings/ProjectVersion.txt) · [Paket manifesti](../UnityProject/Packages/manifest.json) · [Paket kilidi](../UnityProject/Packages/packages-lock.json) |
-| 🧪 **Test durumu** | Menü akışı ve yatay dönüş çarpanı Unity Play modunda doğrulandı. Kullanıcının klavyede bildirdiği takip takılması açık. Windows ekran modu ve çözünürlük geçişleri ile hedef donanım ölçümü bekliyor. |
+| 🧪 **Test durumu** | FlightTest menü akışı ve yatay dönüş çarpanı doğrulandı. HumanIsland Play modunda meydan zemini, takip kamerası ve ada animasyonu kontrol edildi. İnsan Adası uçuş ve iniş rotası, klavyedeki takip takılması, Windows ekran seçenekleri ve hedef donanım ölçümü bekliyor. |
 
 <a id="proje-kararlari"></a>
 
@@ -38,6 +38,7 @@
 | Duraklatma ve ayarlar | 🟢 Geçerli | Donmuş sahne yarı saydam menünün arkasında kalır. Ayarlar üç sütunda kategori, değer ve açıklamayı gösterir. Duraklatma sabit, diğer etkin hareket tuşları yeniden atanabilir. Grafik kalitesi ile çevre ve müzik seviyeleri tercih olarak saklanır. | [Oturum 5](#oturum-5) |
 | Deniz ve görünürlük | 🟡 Deneme | Unity’de kamerayı takip eden iki üçgenli dokusuz deniz, sis ve tek yönlü güneş. Görüş 3.000 m, küçük detay 330 m, ev üst sınırı 1.500 m, gölge 110 m. Hedef donanımda ölçülecek. | [Oturum 3](#oturum-3) |
 | Dünya ve oyun döngüsü | 🔵 Plan | İki ana ada ve küçük keşif adaları, terfi yarışı, görevler, kasaba etkileşimleri ve mini oyunlar. Uygulama sırası kullanıcıyla belirlenecek. | [GDD](Storky_GDD.pdf) |
+| İnsan Adası greybox’ı | 🟡 Deneme | A–J yerleşimi ayrı HumanIsland sahnesinde. Metre ölçekli Blender kaynağı, ayrı statik ve hareketli FBX, ortak gri materyaller ve paylaşılan konut/ağaç meshleri kullanılır. | [Oturum 6](#oturum-6) |
 | Kamera ve performans hedefi | 🟢 Geçerli | Oyuncu leyleği yakın üçüncü şahıs kameradan izler. Ryzen 3 1200 / Radeon RX 560 sınıfı Windows PC’de yoğun oynanışta 180 FPS hedeflenir (kare başına yaklaşık 5,56 ms). Ölçümde kullanılacak çözünürlük ve kalite seviyesi açık. | [GDD, s. 6](Storky_GDD.pdf#page=6) · [Oturum 4](#oturum-4) |
 | Modelleme ve optimizasyon | 🟢 Geçerli | Model üretiminde ve YZ’ye verilen tariflerde aşağıdaki [model standardı](#model-standardi) uygulanır. | [Oturum 4](#oturum-4) |
 | Dayanıklılık göstergesi | 🟢 Geçerli | Sol üst bilgi paneli kaldırıldı. Leyleğin gövdesini takip eden halka ekrana göre dik kalır ve modelin ekran sınırlarının dışına yerleşir. Kalan kanat vuruşu hakkı sıfırsa kırmızı, birse turuncu, iki ve üzeriyse yeşil. Yetersiz dayanıklılıkla vuruş denenirse kırmızı halka yanıp söner. | [Oturum 4](#oturum-4) |
@@ -91,7 +92,7 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 1. **Üretim temeli.** Yakın üçüncü şahıs kamerayla örnek bir çevrede uçuş ve inişi dene. Leyleğin kanat hareketi ve konacağı yüzey okunuyor mu kontrol et. Hedef sınıftaki PC’de Windows derlemesini aynı yoğun rotada ölç. Çözünürlük, kalite ayarı, ortalama FPS ve en yavaş %1’lik karelerin sürelerini kaydet. Sonuçlarla model ve çevre bütçelerini belirle.
 2. **Oyun hissi.** `FlightTest`’te yeni yatay dönüş hassasiyetini, yürüyüşü, Air Roll’u ve inişi kullanıcıyla dene. Klavyede yön değiştirirken bildirilen takip takılması ile gerçek kare süresi arasındaki ilişki açık.
 3. **Başka kurulumda doğrulama.** Git LFS ile temiz klondan açılışı, fiziksel gamepad ile menü kullanımını ve Windows derlemesinde ekran modu ile çözünürlük geçişlerini sına. Derlemeden önce [build sahne listesini](../UnityProject/ProjectSettings/EditorBuildSettings.asset) kontrol et. Kayıtlı listede `SampleScene` etkin.
-4. **Sonraki oyun işi.** Kullanıcı GDD’yi gözden geçirdikten sonra İnsan Adası, keşif adaları ve görev sistemleri arasından sonraki kapsamı belirle.
+4. **İnsan Adası saha kontrolü.** `HumanIsland` sahnesinde meydan, konut terasları, çarşı ve çiftlik üzerinden uçuş rotasını dene. Köprü yaklaşımında ve bacalar çevresinde konma yüzeylerini, yoğun uçuş açısında görünürlük eşiklerini kontrol et. Unity vertex, bellek ve çizim çağrısı sayılarını kaydet.
 
 **Açık kaynak kontrolü.** Leyleğin Blender kaynağını yeniden dışa aktarmadan önce repodaki `.blend` ile Oturum 2’de kullanılan farklı açık kopyanın eşleşmesini doğrula.
 
@@ -102,6 +103,7 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 | İş | Başlangıç noktası |
 | --- | --- |
 | Sahneyi oynat, başlangıcı veya çevreyi incele | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity) · [BirdIsland Prefab](../UnityProject/Assets/_Game/Prefabs/BirdIsland.prefab) · [StorkPlayer Prefab](../UnityProject/Assets/_Game/Prefabs/StorkPlayer.prefab) |
+| İnsan Adası sahnesi ve aktarım dosyaları | [HumanIsland](../UnityProject/Assets/_Game/Scenes/HumanIsland.unity) · [Blender kaynağı](../ArtSource/Environment/HumanIsland/Storky_HumanIsland.blend) · [Statik FBX](../UnityProject/Assets/_Game/Art/Environment/HumanIsland/Storky_HumanIsland.fbx) · [Hareketli FBX](../UnityProject/Assets/_Game/Art/Environment/HumanIsland/Storky_HumanIsland_Motion.fbx) |
 | Girişler, hareket, kamera, stamina ve dalış | [StorkPrototype.cs](../UnityProject/Assets/_Game/Scripts/StorkPrototype.cs). Prototipin tuş eşlemeleri bu dosyada oluşturuluyor. |
 | Duraklatma, ayarlar ve tuş atamaları | [FlightPauseMenu.cs](../UnityProject/Assets/_Game/Scripts/FlightPauseMenu.cs) · [FlightSettings.cs](../UnityProject/Assets/_Game/Scripts/FlightSettings.cs) · [FlightBinding.cs](../UnityProject/Assets/_Game/Scripts/FlightBinding.cs) · [FlightPause.uss](../UnityProject/Assets/_Game/Resources/FlightPause.uss) |
 | Yürüyüş, Animator ve kalibrasyon | [Stork.controller](../UnityProject/Assets/_Game/Animations/Stork.controller) · [Yürüyüş klibi](../UnityProject/Assets/_Game/Animations/Stork_Walk_GroundMatched.anim) · [StorkMotionCalibration.cs](../UnityProject/Assets/_Game/Editor/StorkMotionCalibration.cs) |
@@ -194,6 +196,22 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 - **Kullanıcı geri bildirimi.** Klavyede hızlı `A/D` veya `W/S` değişimlerinde takılma hissedildi. Kullanıcı kolda aynı sorunu görmedi. Denenen fare, klavye ve takip yumuşatmaları sorunu gidermeyince geri alındı.
 - **Bekleyen doğrulama.** Fiziksel kolda menü kullanımı, Windows derlemesinde ekran seçenekleri ve klavyedeki takip takılmasının kaynağı açık. Ada kamera bileşeninin açılışta V-Sync ve FPS değerlerini de yazması ölçümlerde hesaba katılmalı.
 - Oyun ve Editor scriptlerine işlevlerine göre Türkçe yorum başlıkları eklendi. Yeni scriptler için aynı düzen [AGENTS.md](../AGENTS.md) içinde kayıtlı.
+
+</details>
+
+<a id="oturum-6"></a>
+
+### Oturum 6 · İnsan Adası greybox’ı ve Unity aktarımı
+
+<details>
+<summary>Yerleşim, Blender kaynağı ve Unity doğrulaması</summary>
+
+- **Kullanıcı geri bildirimi.** İlk taslak referanslardan uzak ve fazla seyrekti. Kullanıcı modelin açık Blender oturumunda baştan kurulmasını istedi. A–J haritasına göre batı terasları, çeşmeli kamu meydanı, güney limanı ve kuzeydoğu çiftliği yeniden yerleştirildi.
+- **Modelleme kararı.** Yaklaşık 1.500×1.200 m dokusuz, düz gölgelemeli greybox. 100 konut beş, 291 ağaç üç ortak mesh kullanır. Altı ortak gri materyal yüzey türlerini ayırır. Su ve fener camı için ayrı materyaller kullanılır. Geniş konut bacalarının iç açıklığı 1,9 m.
+- **Doğrulanan Blender sonuçları.** Altı inceleme kamerası, on hareketli mesh ve kemiksiz animasyon. Altı dönen parça doğrusal döngü, dört tekne teğetleri eşleşen salınım kullanır. 567 mesh örneğinde 173.641 üçgen, ortak geometri bir kez sayıldığında 59.753 üçgen ölçüldü.
+- **Unity aktarımı.** Statik FBX 556 mesh örneği, hareket FBX’i on parça ve 120 saniyelik `HumanIsland_Loop` klibi içerir. Unity içe aktarımında beş konut ve üç ağaç meshinin paylaşımı korundu. Yeni `HumanIsland` sahnesine mevcut oyuncu prefab’ı, kamera, deniz ve arazi, yapı, yol ve köprü çarpışmaları eklendi. `FlightTest` ve build sahne listesi korundu.
+- **Doğrulanan Unity sonuçları.** Play modunda oyuncunun meydan zeminine oturduğu, ana kameranın oyuncuya bağlı olduğu ve ada animasyonunun ilerlediği görüldü.
+- **Bekleyen doğrulama.** Uçuş ve iniş rotası, Unity vertex ve çizim çağrısı sayımları, temiz LFS klonundan açılış ve hedef Windows donanımında kare süreleri.
 
 </details>
 

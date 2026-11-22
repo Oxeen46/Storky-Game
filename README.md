@@ -13,7 +13,7 @@
 
 </div>
 
-Storky, bebek üretim ve kargolama şirketinde işe başlayan bir leyleğin terfi yarışını anlatan stilize bir 3D uçuş ve keşif oyunu. Şu an Unity’de Kuş Adası’nın dış mekân greybox’ı ve leyleğin hareket prototipi oynanabilir. Diğer adalar, hikâye ve görevler tasarım aşamasında. Uygulanan özellikler, kararlar ve sıradaki işler [çalışma günlüğünde](docs/CALISMA_GUNLUGU.md#guncel-durum).
+Storky, bebek üretim ve kargolama şirketinde işe başlayan bir leyleğin terfi yarışını anlatan stilize bir 3D uçuş ve keşif oyunu. Kuş Adası ve İnsan Adası dış mekân greybox’ları, leyleğin hareket prototipiyle ayrı Unity sahnelerinde oynanabilir. Keşif adaları, hikâye ve görevler tasarım aşamasında. Uygulanan özellikler, kararlar ve sıradaki işler [çalışma günlüğünde](docs/CALISMA_GUNLUGU.md#guncel-durum).
 
 <img width="1280" height="640" alt="Storky_GitHub_Kapak" src="https://github.com/user-attachments/assets/8a022a4e-3405-4034-9600-f150240b5e19" />
 
@@ -24,7 +24,7 @@ Storky, bebek üretim ve kargolama şirketinde işe başlayan bir leyleğin terf
 1. Git, Git LFS ve Unity Hub’ı kur. Projenin istediği Unity Editor sürümünü [ProjectVersion.txt](UnityProject/ProjectSettings/ProjectVersion.txt) dosyasından doğrula.
 2. Depoyu klonla. Repo kökünde `git lfs install` ve `git lfs pull` çalıştırarak Blender ve FBX dosyalarını indir.
 3. Unity Hub’da **Add project from disk** ile `UnityProject/` klasörünü seç ve içe aktarmanın bitmesini bekle.
-4. Unity’de [FlightTest.unity](UnityProject/Assets/_Game/Scenes/FlightTest.unity) sahnesini aç ve **Play**’e bas. Leylek fabrika avlusunda başlar.
+4. Kuş Adası için [FlightTest.unity](UnityProject/Assets/_Game/Scenes/FlightTest.unity), İnsan Adası için [HumanIsland.unity](UnityProject/Assets/_Game/Scenes/HumanIsland.unity) sahnesini aç ve **Play**’e bas. Leylek Kuş Adası’nda fabrika avlusunda, İnsan Adası’nda merkez meydanında başlar.
 
 > [!NOTE]
 > Prototipi Editor’da Play ile dene. Kayıtlı build listesinde şu anda Unity şablon sahnesi `SampleScene` etkin. Prototip build’i almak için sahne listesini gözden geçir.
