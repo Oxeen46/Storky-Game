@@ -36,7 +36,7 @@
 | Hareket dengesi | 🟡 Deneme | Yürüyüş 1,4 m/s, azami hava hızı 62 m/s, roll 220°/s. Kanat vuruşunun ileri katkısı 5,5 m/s. Dalış desteği birikime göre en fazla 11 m/s katkı sağlar ve 2 s sürer. | [Oturum 3](#oturum-3) |
 | Deniz ve görünürlük | 🟡 Deneme | Unity’de kamerayı takip eden iki üçgenli dokusuz deniz, sis ve tek yönlü güneş. Görüş 3.000 m, küçük detay 330 m, ev üst sınırı 1.500 m, gölge 110 m. Hedef donanımda ölçülecek. | [Oturum 3](#oturum-3) |
 | Dünya ve oyun döngüsü | 🔵 Plan | İki ana ada ve küçük keşif adaları, terfi yarışı, görevler, kasaba etkileşimleri ve mini oyunlar. Uygulama sırası kullanıcıyla belirlenecek. | [GDD](Storky_GDD.pdf) |
-| Kamera ve performans hedefi | 🟢 Geçerli | Oyuncu leyleği yakın üçüncü şahıs kameradan izler. Ryzen 3 1200 / Radeon RX 560 sınıfı Windows PC’de yoğun oynanışta 180 FPS hedeflenir (kare başına yaklaşık 5,56 ms). Çözünürlük, kalite ayarı ve varlık bütçeleri açık. | [GDD, s. 6](Storky_GDD.pdf#page=6) · [Oturum 4](#oturum-4) |
+| Kamera ve performans hedefi | 🟢 Geçerli | Oyuncu leyleği yakın üçüncü şahıs kameradan izler. Ryzen 3 1200 / Radeon RX 560 sınıfı Windows PC’de yoğun oynanışta 180 FPS hedeflenir (kare başına yaklaşık 5,56 ms). Çözünürlük ve kalite ayarı açık. | [GDD, s. 6](Storky_GDD.pdf#page=6) · [Oturum 4](#oturum-4) |
 | Modelleme ve optimizasyon | 🟢 Geçerli | Model üretiminde ve YZ’ye verilen tariflerde aşağıdaki [model standardı](#model-standardi) uygulanır. | [Oturum 4](#oturum-4) |
 | Oyun modu ve dağıtım | ⚪ Açık | Oyun modu, ekipte inceleme düzeni, dağıtım ve varlıkların yeniden kullanım koşulları belirlenmeyi bekliyor. | [GDD](Storky_GDD.pdf) · [Oturum 1](#oturum-1) |
 | Belgeler ve Git | 🟢 Geçerli | Güncel kararlar burada, oturumlar tarihsiz arşivde tutulur. README renkli GitHub şablonunu kullanır. Kullanıcı GDD’yi elden geçirir ve commit/push işlemlerini yürütür. | [Ajan rehberi](../AGENTS.md) |
@@ -61,6 +61,25 @@ Her model tarifinde oynanış rolünü, oyuncunun onu hangi sıklıkta ve ne kad
 - **Görünürlük ve fizik.** Bir yüzeyi kaldırmadan önce alttan uçuşu, yamaç yerleşimini ve gölgesini kontrol et. Çarpışma gereken nesnede oynanışı karşılayan en basit collider’ı kullan. Çatılar ve rampalarda konma yüzeyinin eğimini koru.
 - **LOD ve tekrar.** Uzak model veya görünürlük eşiğini nesnenin kapladığı ekran alanına ve tanınması gereken mesafeye göre seç. LOD geçişini normal uçuş hızında kontrol et. Mesh birleştirme ve batching kararını yoğun rotadaki çizim çağrıları, görünürlük ve bellek ölçümüne dayandır.
 - **Bütçe ve doğrulama.** Her adayın üçgen, Unity vertex ve materyal yuvası sayılarını kaydet. Animasyonlu modelde kemik sayısı ve vertex başına kemik etkisini de kaydet. Görsel kontrolü hedef oyun kamerasıyla yürüyüş, konma ve yoğun çevre üzerinde uçuş sırasında yap. Kesin sınırları hedef Windows PC’de aynı rota, çözünürlük ve kalite ayarlarında ölçülen CPU/GPU kare süreleri ile bellek kullanımına göre belirle.
+
+#### LOD0 üçgen bütçeleri
+
+Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye aktarılan üçgenleri belirtir.
+
+| Varlık | Önerilen üçgen aralığı |
+| --- | ---: |
+| Oyuncu leyleği | 3.000–6.000 |
+| Yakından görülen NPC veya hayvan | 800–2.500 |
+| Taşınan paket veya görev eşyası | 100–600 |
+| Tekrarlanan küçük dekor (parça başına) | 12–250 |
+| Kaya veya çalı | 30–200 |
+| Ağaç | 150–700 |
+| Standart ev veya dükkân (tüm dış kabuk) | 300–1.500 |
+| Fabrika veya fener gibi özgün yapı (ana dış kütle) | 1.500–5.000 |
+
+İlk oyuncu modelinde yaklaşık **4.000 üçgen ve 1 materyal** hedefle. Daha az üçgenle kabul ölçütlerini karşılayan modeli kullan. Üst sınırın aşılmasını oyun kamerasında görülen silüet veya deformasyon ihtiyacıyla gerekçelendir. Tekrarlanan çevre modellerini aynı karede görünen kopya sayısıyla birlikte değerlendir.
+
+İlk FPS kontrolünü Unity’de FlightTest sahnesini oynatarak Game → Stats üzerinden yap. Fabrika avlusunda ve adanın büyük bölümünü gösteren uçuş açısında FPS ve kare süresini kaydet. 180 FPS hedefini aynı rotada hedef sınıftaki PC’de Windows derlemesiyle doğrula.
 
 <a id="siradaki-isler"></a>
 
@@ -147,6 +166,7 @@ Her model tarifinde oynanış rolünü, oyuncunun onu hangi sıklıkta ve ne kad
 - Kuş Adası’nda çatılar hem uzaktan yön bulma hem yakından konma işlevi görüyor. Bu yüzden ayrıntı kararı ekran boyutu, görünme sıklığı, oynanış rolü ve eşzamanlı kopya sayısına bağlandı.
 - Kullanıcı, karakter ve greybox’ın baştan yapılabileceğini belirtti. İlk taslaktaki karakter ölçüleri, klip sayısı ve ada düzeni üretim standardından çıkarıldı. Hedef donanım ölçümü ve oyun içi kabul kontrolleri bekliyor.
 - GDD üçüncü şahıs kamerayı tanımlıyor. Kullanıcı yakın takip görünümünü ve eski PC sınıfında 180 FPS hedefini netleştirdi. Performansın hedef donanımda doğrulanması bekliyor.
+- Kullanıcı, varlık türüne göre LOD0 aralıklarını, oyuncu leyleği için yaklaşık 4.000 üçgen ve tek materyal hedefini onayladı. Unity içi ilk FPS ölçümü bekliyor.
 
 <details>
 <summary>Sonraki oturum için kayıt şablonu</summary>
