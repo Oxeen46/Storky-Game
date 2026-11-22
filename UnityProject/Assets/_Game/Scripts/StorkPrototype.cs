@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 namespace Storky
 {
@@ -48,7 +50,13 @@ namespace Storky
         string mode = "Idle", state = "", family = "Keyboard";
         bool airborne, paused, previousCursorVisible;
         CursorLockMode previousCursorLock;
-        GUIStyle titleStyle, textStyle;
+        VisualElement staminaRing;
+        PanelSettings panelSettings;
+        float displayedStamina = 1f;
+        float warningTime;
+        Renderer[] characterRenderers;
+        Vector2 staminaRingPosition;
+        bool hasStaminaRingPosition;
         int diveHash, flyHash, glideHash, walkHash, takeoffHash, idleHash;
 
         void Awake()
@@ -61,6 +69,7 @@ namespace Storky
                 foreach(var t in animator.GetComponentsInChildren<Transform>())
                     if(t.name=="Body") {bodyBone=t;break;}
             stamina = staminaCapacity;
+            CreateStaminaRing();
             controls = new InputActionMap("Stork");
             move = controls.AddAction("Move", InputActionType.Value);
             move.AddCompositeBinding("2DVector").With("Up", "<Keyboard>/w").With("Down", "<Keyboard>/s").With("Left", "<Keyboard>/a").With("Right", "<Keyboard>/d");
@@ -93,14 +102,16 @@ namespace Storky
         void OnEnable()
         {
             controls?.Enable(); previousCursorLock=Cursor.lockState; previousCursorVisible=Cursor.visible;
+            if (staminaRing != null) staminaRing.visible = true;
             SetCursor(true);
         }
         void OnDisable()
         {
             controls?.Disable(); if (paused) {Time.timeScale=1; paused=false;}
+            if (staminaRing != null) staminaRing.visible = false;
             Cursor.lockState=previousCursorLock; Cursor.visible=previousCursorVisible;
         }
-        void OnDestroy() { InputSystem.onDeviceChange -= DeviceChanged; controls?.Dispose(); }
+        void OnDestroy() { InputSystem.onDeviceChange -= DeviceChanged; controls?.Dispose(); Destroy(panelSettings); }
         void OnApplicationFocus(bool focused) { if(focused && !paused) SetCursor(true); }
         void SetCursor(bool locked) { Cursor.lockState=locked?CursorLockMode.Locked:CursorLockMode.None; Cursor.visible=!locked; }
         void DeviceChanged(InputDevice device, InputDeviceChange change)
@@ -211,7 +222,13 @@ namespace Storky
         }
         public bool TryFlap()
         {
-            if(paused || stamina<flapCost || flapCooldown>0)return false;
+            if (paused) return false;
+            if (stamina < flapCost)
+            {
+                warningTime = .48f;
+                return false;
+            }
+            if (flapCooldown > 0) return false;
             stamina-=flapCost;flapCooldown=.38f;flapVisual=.42f;
             if(!airborne)
             {
@@ -252,6 +269,7 @@ namespace Storky
             pos.y=Mathf.Max(seaLevel+.3f,pos.y);
             followCamera.transform.position=pos;followCamera.transform.LookAt(target);
             followCamera.fieldOfView=Mathf.Lerp(followCamera.fieldOfView,airborne?Mathf.Lerp(65,78,airSpeed/maxAirSpeed):62,1-Mathf.Exp(-3*dt));
+            UpdateStaminaRing();
         }
         void ApplyBodyPose()
         {
@@ -272,20 +290,126 @@ namespace Storky
             if(visual){visual.localPosition=visualRestPosition;visual.localRotation=initialVisual;}
             stamina=staminaCapacity;flapCooldown=0;flapVisual=0;heading=spawnYaw;cameraYaw=spawnYaw;cameraPitch=17;distance=0;mode="Idle";
         }
-        void OnGUI()
+        void CreateStaminaRing()
         {
-            if(titleStyle==null){titleStyle=new GUIStyle(GUI.skin.label){fontSize=20,fontStyle=FontStyle.Bold};textStyle=new GUIStyle(GUI.skin.label){fontSize=14,wordWrap=true};}
-            float scale=Mathf.Clamp(Screen.height/900f,.65f,1.5f);Matrix4x4 old=GUI.matrix;GUI.matrix=Matrix4x4.Scale(Vector3.one*scale);
-            GUI.Box(new Rect(18,18,480,paused?130:192),"");
-            GUI.Label(new Rect(32,25,450,28),paused?"STORKY / DURAKLATILDI":"STORKY / KUS ADASI",titleStyle);
-            if(paused){GUI.Label(new Rect(32,60,445,60),"Devam: Esc / Start\nKamera fareyle serbestce doner.",textStyle);GUI.matrix=old;return;}
-            GUI.Label(new Rect(32,55,445,24),$"{family} | {mode} | Hiz: {velocity.magnitude:0.0} m/s",textStyle);
-            GUI.Box(new Rect(32,84,440,16),"");GUI.Box(new Rect(34,86,436*Mathf.Clamp01(stamina/staminaCapacity),12),"");
-            GUI.Label(new Rect(32,104,440,22),$"Stamina: {stamina:0}/{staminaCapacity:0}",textStyle);
-            string hint;
-            if(family=="Keyboard")hint="WASD: yuru / burun ve donus | Q/E: Air Roll\nSpace: kanat cirp | Shift: dalis | Fare: kamera\nF: etkilesim (hazir) | R: geri don | Esc: duraklat";
-            else {string south=family=="PlayStation"?"Carpi":family=="Switch"?"B":"A";string east=family=="PlayStation"?"Daire":family=="Switch"?"A":"B";hint=$"Sol cubuk: hareket | Sag cubuk: kamera\n{south}: kanat cirp | {east}: dalis | L1/R1: Air Roll\nX/Kare: etkilesim | View/Share: don | Start: duraklat";}
-            GUI.Label(new Rect(32,130,445,70),hint,textStyle);GUI.matrix=old;
+            characterRenderers = GetComponentsInChildren<Renderer>(true);
+            var hud = new GameObject("Stamina HUD");
+            hud.transform.SetParent(transform, false);
+            panelSettings = ScriptableObject.CreateInstance<PanelSettings>();
+            panelSettings.themeStyleSheet = Resources.Load<ThemeStyleSheet>("StorkyHudTheme");
+            var document = hud.AddComponent<UIDocument>();
+            document.panelSettings = panelSettings;
+            var root = document.rootVisualElement;
+            root.pickingMode = PickingMode.Ignore;
+            staminaRing = new VisualElement { name = "stamina-ring", pickingMode = PickingMode.Ignore };
+            staminaRing.style.position = Position.Absolute;
+            staminaRing.generateVisualContent += DrawStaminaRing;
+            root.Add(staminaRing);
+        }
+
+        void UpdateStaminaRing()
+        {
+            Vector3 point = followCamera.WorldToScreenPoint(VisualBodyCenter);
+            float scale = Mathf.Clamp(Screen.height / 900f, .7f, 1.5f);
+            float size = 34f * scale;
+            float left = point.x, right = point.x, top = point.y, bottom = point.y;
+            foreach (var mesh in characterRenderers)
+            {
+                if (!mesh || !mesh.enabled || !mesh.gameObject.activeInHierarchy) continue;
+                Bounds bounds = mesh.bounds;
+                for (int i = 0; i < 8; i++)
+                {
+                    Vector3 corner = new Vector3((i & 1) == 0 ? bounds.min.x : bounds.max.x,
+                        (i & 2) == 0 ? bounds.min.y : bounds.max.y,
+                        (i & 4) == 0 ? bounds.min.z : bounds.max.z);
+                    Vector3 screen = followCamera.WorldToScreenPoint(corner);
+                    if (screen.z <= 0) continue;
+                    left = Mathf.Min(left, screen.x);
+                    right = Mathf.Max(right, screen.x);
+                    top = Mathf.Max(top, screen.y);
+                    bottom = Mathf.Min(bottom, screen.y);
+                }
+            }
+            float gap = 9f * scale;
+            Rect silhouette = Rect.MinMaxRect(left - gap, Screen.height - top - gap,
+                right + gap, Screen.height - bottom + gap);
+            float maxX = Screen.width - size - gap;
+            float maxY = Screen.height - size - gap;
+            Vector2 bodyPoint = new Vector2(point.x, Screen.height - point.y);
+            float preferredY = bodyPoint.y - size * 1.55f;
+            Vector2 target = new Vector2(Mathf.Clamp(bodyPoint.x - size * 1.65f, gap, maxX),
+                Mathf.Clamp(preferredY, gap, maxY));
+            if (RingOverlaps(target, size, silhouette))
+            {
+                target.y = silhouette.yMin - size;
+                if (target.y < gap)
+                {
+                    target = new Vector2(silhouette.xMax, Mathf.Clamp(preferredY, gap, maxY));
+                    if (target.x > maxX) target.x = silhouette.xMin - size;
+                    if (target.x < gap)
+                        target = new Vector2(Mathf.Clamp(bodyPoint.x - size / 2, gap, maxX), silhouette.yMax);
+                }
+            }
+            bool fits = point.z > 0 && FitsScreen(target, gap, maxX, maxY);
+            staminaRing.style.display = fits ? DisplayStyle.Flex : DisplayStyle.None;
+            if (fits)
+            {
+                float blend = 1f - Mathf.Exp(-18f * Time.deltaTime);
+                Vector2 next = Vector2.Lerp(staminaRingPosition, target, blend);
+                // A fast roll can put a wing in the interpolation path.
+                if (!hasStaminaRingPosition || RingOverlaps(next, size, silhouette) ||
+                    !FitsScreen(next, gap, maxX, maxY))
+                    next = target;
+                staminaRingPosition = next;
+                staminaRing.style.left = next.x;
+                staminaRing.style.top = next.y;
+            }
+            hasStaminaRingPosition = fits;
+            staminaRing.style.width = size;
+            staminaRing.style.height = size;
+            float fraction = staminaCapacity > 0 ? Mathf.Clamp01(stamina / staminaCapacity) : 0;
+            if (fraction != displayedStamina || warningTime > 0)
+            {
+                displayedStamina = Mathf.MoveTowards(displayedStamina, fraction, Time.deltaTime * .42f);
+                warningTime = Mathf.Max(0, warningTime - Time.deltaTime);
+                staminaRing.MarkDirtyRepaint();
+            }
+        }
+
+        static bool RingOverlaps(Vector2 position, float size, Rect silhouette)
+        {
+            return new Rect(position.x, position.y, size, size).Overlaps(silhouette);
+        }
+
+        static bool FitsScreen(Vector2 position, float min, float maxX, float maxY)
+        {
+            return position.x >= min && position.x <= maxX &&
+                   position.y >= min && position.y <= maxY;
+        }
+
+        void DrawStaminaRing(MeshGenerationContext context)
+        {
+            var painter = context.painter2D;
+            float size = staminaRing.contentRect.width;
+            Vector2 center = Vector2.one * (size * .5f);
+            float radius = size * .38f;
+            bool exhausted = stamina < flapCost;
+            float flash = warningTime > 0 ? .5f + .5f * Mathf.Cos((.48f - warningTime) * Mathf.PI * 8f) : 0;
+            painter.lineWidth = size * .21f;
+            painter.strokeColor = exhausted
+                ? Color.Lerp(new Color(.45f, .07f, .09f), new Color(1f, .32f, .26f), flash)
+                : new Color(.07f, .13f, .13f, .94f);
+            painter.BeginPath();
+            painter.Arc(center, radius, -90, 270);
+            painter.Stroke();
+            if (displayedStamina <= 0) return;
+            painter.lineCap = LineCap.Round;
+            painter.lineWidth = size * .135f;
+            painter.strokeColor = exhausted ? new Color(1f, .25f, .20f)
+                : stamina < 2f * flapCost ? new Color(1f, .65f, .19f) : new Color(.49f, .96f, .49f);
+            painter.BeginPath();
+            painter.Arc(center, radius, -90, -90 + 360 * displayedStamina);
+            painter.Stroke();
         }
     }
 }

@@ -12,7 +12,7 @@
 
 | Alan | Devralırken bilinmesi gereken |
 | --- | --- |
-| 🧭 **Son oturum** | **[Oturum 4](#oturum-4)** · Modelleme ve optimizasyon standardı belirlendi. Yakın üçüncü şahıs kamera ve Ryzen 3 1200 / RX 560 sınıfında 180 FPS hedefi kaydedildi. |
+| 🧭 **Son oturum** | **[Oturum 4](#oturum-4)** · Modelleme standardı, 180 FPS hedefi ve karakteri takip eden dayanıklılık göstergesi tamamlandı. Hedef donanım ölçümü bekliyor. |
 | 🎯 **Oyun hedefi** | Windows PC’de stilize low poly uçuş ve keşif. Leylek, bebek üretim ve kargolama şirketindeki terfi yarışında ilerler. Dünya ve görev tasarımı [GDD’de](Storky_GDD.pdf). |
 | 🏝️ **Oynanabilir sahne** | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity). 600×600 m Kuş Adası, 70 dış bina kütlesi, fabrika avlusu başlangıcı, dokusuz deniz ve tek güneş. |
 | 🪽 **Çalışan hareket** | Hızla eşleşen yürüyüş, kalkış ve tek vuruşlu kanat çırpma, otomatik süzülme, stamina, gövde merkezli Air Roll, dalıştan toparlanma ve serbest fare kamerası. Deniz teması fabrika avlusuna döndürür. |
@@ -38,6 +38,7 @@
 | Dünya ve oyun döngüsü | 🔵 Plan | İki ana ada ve küçük keşif adaları, terfi yarışı, görevler, kasaba etkileşimleri ve mini oyunlar. Uygulama sırası kullanıcıyla belirlenecek. | [GDD](Storky_GDD.pdf) |
 | Kamera ve performans hedefi | 🟢 Geçerli | Oyuncu leyleği yakın üçüncü şahıs kameradan izler. Ryzen 3 1200 / Radeon RX 560 sınıfı Windows PC’de yoğun oynanışta 180 FPS hedeflenir (kare başına yaklaşık 5,56 ms). Çözünürlük ve kalite ayarı açık. | [GDD, s. 6](Storky_GDD.pdf#page=6) · [Oturum 4](#oturum-4) |
 | Modelleme ve optimizasyon | 🟢 Geçerli | Model üretiminde ve YZ’ye verilen tariflerde aşağıdaki [model standardı](#model-standardi) uygulanır. | [Oturum 4](#oturum-4) |
+| Dayanıklılık göstergesi | 🟢 Geçerli | Sol üst bilgi paneli kaldırıldı. Leyleğin gövdesini takip eden halka ekrana göre dik kalır ve modelin ekran sınırlarının dışına yerleşir. Kalan kanat vuruşu hakkı sıfırsa kırmızı, birse turuncu, iki ve üzeriyse yeşil. Yetersiz dayanıklılıkla vuruş denenirse kırmızı halka yanıp söner. | [Oturum 4](#oturum-4) |
 | Oyun modu ve dağıtım | ⚪ Açık | Oyun modu, ekipte inceleme düzeni, dağıtım ve varlıkların yeniden kullanım koşulları belirlenmeyi bekliyor. | [GDD](Storky_GDD.pdf) · [Oturum 1](#oturum-1) |
 | Belgeler ve Git | 🟢 Geçerli | Güncel kararlar burada, oturumlar tarihsiz arşivde tutulur. README renkli GitHub şablonunu kullanır. Kullanıcı GDD’yi elden geçirir ve commit/push işlemlerini yürütür. | [Ajan rehberi](../AGENTS.md) |
 
@@ -161,12 +162,14 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 
 <a id="oturum-4"></a>
 
-### Oturum 4 · Modelleme ve optimizasyon standardı
+### Oturum 4 · Modelleme standardı ve dayanıklılık göstergesi
 
 - Kuş Adası’nda çatılar hem uzaktan yön bulma hem yakından konma işlevi görüyor. Bu yüzden ayrıntı kararı ekran boyutu, görünme sıklığı, oynanış rolü ve eşzamanlı kopya sayısına bağlandı.
 - Kullanıcı, karakter ve greybox’ın baştan yapılabileceğini belirtti. İlk taslaktaki karakter ölçüleri, klip sayısı ve ada düzeni üretim standardından çıkarıldı. Hedef donanım ölçümü ve oyun içi kabul kontrolleri bekliyor.
 - GDD üçüncü şahıs kamerayı tanımlıyor. Kullanıcı yakın takip görünümünü ve eski PC sınıfında 180 FPS hedefini netleştirdi. Performansın hedef donanımda doğrulanması bekliyor.
 - Kullanıcı, varlık türüne göre LOD0 aralıklarını, oyuncu leyleği için yaklaşık 4.000 üçgen ve tek materyal hedefini onayladı. Unity içi ilk FPS ölçümü bekliyor.
+- Bilgi panelinin yerini gövdenin sol üstünü takip eden dayanıklılık halkası aldı. Dolgu harcanan dayanıklılığı kademeli gösterir. Kamera çevrildiğinde veya Air Roll sırasında kanatla çakışma olursa halka boş bir kenara geçer. Renk eşikleri kalan vuruş hakkına bağlandı.
+- FlightTest Play modunda kanat vuruşunun dayanıklılığı harcadığı, dolgunun kademeli azaldığı ve yetersiz dayanıklılık uyarısının tetiklendiği doğrulandı. Örneklenen 96 kamera açısı ve Air Roll kombinasyonunda halka görünür kaldı ve modelin ekran sınırlarıyla çakışmadı. UI Toolkit teması eklendikten sonra Play kontrolünde Console 0 hata ve 0 uyarı gösterdi.
 
 <details>
 <summary>Sonraki oturum için kayıt şablonu</summary>
