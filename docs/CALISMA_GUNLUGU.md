@@ -164,12 +164,17 @@ Sayılar, tek varlığın en ayrıntılı oyun içi sürümü için Unity’ye a
 
 ### Oturum 4 · Modelleme standardı ve dayanıklılık göstergesi
 
+<details>
+<summary>Model bütçeleri, dayanıklılık halkası ve Play kontrolleri</summary>
+
 - Kuş Adası’nda çatılar hem uzaktan yön bulma hem yakından konma işlevi görüyor. Bu yüzden ayrıntı kararı ekran boyutu, görünme sıklığı, oynanış rolü ve eşzamanlı kopya sayısına bağlandı.
 - Kullanıcı, karakter ve greybox’ın baştan yapılabileceğini belirtti. İlk taslaktaki karakter ölçüleri, klip sayısı ve ada düzeni üretim standardından çıkarıldı. Hedef donanım ölçümü ve oyun içi kabul kontrolleri bekliyor.
 - GDD üçüncü şahıs kamerayı tanımlıyor. Kullanıcı yakın takip görünümünü ve eski PC sınıfında 180 FPS hedefini netleştirdi. Performansın hedef donanımda doğrulanması bekliyor.
 - Kullanıcı, varlık türüne göre LOD0 aralıklarını, oyuncu leyleği için yaklaşık 4.000 üçgen ve tek materyal hedefini onayladı. Unity içi ilk FPS ölçümü bekliyor.
 - Bilgi panelinin yerini gövdenin sol üstünü takip eden dayanıklılık halkası aldı. Dolgu harcanan dayanıklılığı kademeli gösterir. Kamera çevrildiğinde veya Air Roll sırasında kanatla çakışma olursa halka boş bir kenara geçer. Renk eşikleri kalan vuruş hakkına bağlandı.
 - FlightTest Play modunda kanat vuruşunun dayanıklılığı harcadığı, dolgunun kademeli azaldığı ve yetersiz dayanıklılık uyarısının tetiklendiği doğrulandı. Örneklenen 96 kamera açısı ve Air Roll kombinasyonunda halka görünür kaldı ve modelin ekran sınırlarıyla çakışmadı. UI Toolkit teması eklendikten sonra Play kontrolünde Console 0 hata ve 0 uyarı gösterdi.
+
+</details>
 
 <details>
 <summary>Sonraki oturum için kayıt şablonu</summary>
