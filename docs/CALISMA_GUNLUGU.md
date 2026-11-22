@@ -12,7 +12,7 @@
 
 | Alan | Devralırken bilinmesi gereken |
 | --- | --- |
-| 🧭 **Son oturum** | **[Oturum 3](#oturum-3)** · Kuş Adası, Unity sahnesi ve hareket prototipi |
+| 🧭 **Son oturum** | **[Oturum 4](#oturum-4)** · Modelleme ve optimizasyon standardı belirlendi. Sıradaki çalışma mevcut Storky modeli ve animasyonları. |
 | 🎯 **Oyun hedefi** | Windows PC’de stilize low poly uçuş ve keşif. Leylek, bebek üretim ve kargolama şirketindeki terfi yarışında ilerler. Dünya ve görev tasarımı [GDD’de](Storky_GDD.pdf). |
 | 🏝️ **Oynanabilir sahne** | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity). 600×600 m Kuş Adası, 70 dış bina kütlesi, fabrika avlusu başlangıcı, dokusuz deniz ve tek güneş. |
 | 🪽 **Çalışan hareket** | Hızla eşleşen yürüyüş, kalkış ve tek vuruşlu kanat çırpma, otomatik süzülme, stamina, gövde merkezli Air Roll, dalıştan toparlanma ve serbest fare kamerası. Deniz teması fabrika avlusuna döndürür. |
@@ -37,10 +37,30 @@
 | Deniz ve görünürlük | 🟡 Deneme | Unity’de kamerayı takip eden iki üçgenli dokusuz deniz, sis ve tek yönlü güneş. Görüş 3.000 m, küçük detay 330 m, ev üst sınırı 1.500 m, gölge 110 m. Hedef donanımda ölçülecek. | [Oturum 3](#oturum-3) |
 | Dünya ve oyun döngüsü | 🔵 Plan | İki ana ada ve küçük keşif adaları, terfi yarışı, görevler, kasaba etkileşimleri ve mini oyunlar. Uygulama sırası kullanıcıyla belirlenecek. | [GDD](Storky_GDD.pdf) |
 | Kalite bütçesi | ⚪ Açık | Hedef PC yapılandırması, performans bütçesi ve kesin varlık sınırları ölçümden sonra belirlenir. | [Oturum 2](#oturum-2) · [Oturum 3](#oturum-3) |
+| Modelleme ve optimizasyon | 🟢 Geçerli | Model üretiminde ve YZ’ye verilen tariflerde aşağıdaki [model standardı](#model-standardi) uygulanır. | [Oturum 4](#oturum-4) |
 | Oyun modu ve dağıtım | ⚪ Açık | Oyun modu, ekipte inceleme düzeni, dağıtım ve varlıkların yeniden kullanım koşulları belirlenmeyi bekliyor. | [GDD](Storky_GDD.pdf) · [Oturum 1](#oturum-1) |
 | Belgeler ve Git | 🟢 Geçerli | Güncel kararlar burada, oturumlar tarihsiz arşivde tutulur. README renkli GitHub şablonunu kullanır. Kullanıcı GDD’yi elden geçirir ve commit/push işlemlerini yürütür. | [Ajan rehberi](../AGENTS.md) |
 
 Karar değiştiğinde ilgili satırın durumunu, kararını ve dayanağını güncelle. Neden değiştiğini o oturumun kısa kaydına ekle.
+
+<a id="model-standardi"></a>
+
+### Modelleme ve optimizasyon standardı
+
+Her model tarifinde oynanış rolünü, oyuncunun onu hangi sıklıkta ve ne kadar süre gördüğünü, en yakın ve olağan kamera görünümünü, aynı karede beklenen kopya sayısını belirt. Geometriyi önce bu görünümlerde seçilen dış hatlara, hareket sırasında bükülen eklemlere ve oyuncunun temas ettiği yüzeylere ayır.
+
+| Model türü | Korunacak ayrıntı | Oyun kamerasında kabul ölçütü |
+| --- | --- | --- |
+| Storky | Gaga, boyun, açık ve katlı kanat silüeti. Kanat kökü ve bacaklarda bükülmeyi taşıyan kenar akışı ve kemik ağırlıkları. Mevcut 1.892 üçgen, 19 kemik ve tek palet materyali revizyon için başlangıç referansıdır. | Altı klipte uç pozları ve geçişleri izle. Kanat kökü hacmini korumalı, süzülme ve dalış arkadan ayırt edilebilmeli, yürüyüşte basan ayak zeminde kaymamalı. |
+| Toplanabilir eşya ve etkileşimli nesne | İşlevi anlatan dış hat, renk ve yaklaşma yönünden görülen işaret. | Oyuncu normal yaklaşma hızında nesneyi zamanında tanıyabilmeli. Etkileşim alanı kullanım mesafesine uymalı. |
+| Bina, çatı ve yön bulma noktası | Havadan çatı profili ve ana kütle, inişte saçak ve konma yüzeyi. | Fener ve fabrika uzaktan ayırt edilebilmeli. Yakından görünen çatı eğimi ile fiziksel iniş yüzeyi örtüşmeli. |
+| Tekrarlanan ağaç, kaya ve dekor | Birkaç ayırt edilebilir silüet, ortak mesh ve materyali kullanan kopyalar. | Yoğun bir uçuş rotasında kopyaları gölgeleriyle birlikte değerlendir. Uzak modelde küçük dal ve çıkıntıları önce sadeleştir. |
+| Uzak ada ve arazi | Kıyı çizgisi, sırt profili ve büyük renk alanları. | Yüksekten uçuşta rota okunabilmeli. Yaklaşılabilen arazide ayrıntı geçişi ufuk çizgisinde görünür sıçrama yaratmamalı. |
+
+- **Yüzey ve renk.** Opak, düz renkli varlıklarda uygun ortak palet materyalini kullan. UV’leri renk hücresinin içine, kenarlardan pay bırakarak yerleştir. Sert kenarları biçime göre seç. Organik eklemlerde gölgelemeyi hareket halinde değerlendir. Deniz gibi farklı yüzey davranışları ayrı shader kullanabilir.
+- **Görünürlük ve fizik.** Bir yüzeyi kaldırmadan önce alttan uçuşu, yamaç yerleşimini ve gölgesini kontrol et. Çarpışma gereken nesnede oynanışı karşılayan en basit collider’ı kullan. Çatılar ve rampalarda konma yüzeyinin eğimini koru.
+- **LOD ve tekrar.** Uzak model veya görünürlük eşiğini nesnenin kapladığı ekran alanına ve tanınması gereken mesafeye göre seç. LOD geçişini normal uçuş hızında kontrol et. Mesh birleştirme ve batching kararını yoğun rotadaki çizim çağrıları, görünürlük ve bellek ölçümüne dayandır.
+- **Bütçe ve doğrulama.** Revizyonda önceki ve yeni modelin üçgen sayısını, Unity’ye aktarılan vertex sayısını ve materyal yuvası sayısını karşılaştır. Animasyonlu modelde kemik sayısı ve vertex başına kemik etkisini de kaydet. Görsel kontrolü kayıtlı FlightTest sahnesinde yürüyüş, çatıya yaklaşma ve yüksekten uçuşta yap. Kesin sınırları hedef Windows PC’de aynı rota, çözünürlük ve kalite ayarlarında ölçülen CPU/GPU kare süreleri ile bellek kullanımına göre belirle.
 
 <a id="siradaki-isler"></a>
 
@@ -118,6 +138,13 @@ Karar değiştiğinde ilgili satırın durumunu, kararını ve dayanağını gü
 - Devir teslim belgeleri yeniden düzenlendi. Güncel kararlar üst tabloda, teknik giriş noktaları dosya haritasında, eski sonuç ve gerekçeler arşivde toplanıyor.
 
 </details>
+
+<a id="oturum-4"></a>
+
+### Oturum 4 · Modelleme ve optimizasyon standardı
+
+- Kuş Adası’nda çatılar hem uzaktan yön bulma hem yakından konma işlevi görüyor. Bu yüzden ayrıntı kararı ekran boyutu, görünme sıklığı, oynanış rolü ve eşzamanlı kopya sayısına bağlandı.
+- GitHub’daki karakter Prefab’ı, Animator ve günlüğün önceki ölçümleri referans alındı. Bu oturum belge çalışmasıydı. Hedef donanım ölçümü ve model revizyonunun oyun içi kabul kontrolleri bekliyor.
 
 <details>
 <summary>Sonraki oturum için kayıt şablonu</summary>
