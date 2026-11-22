@@ -12,7 +12,7 @@
 
 | Alan | Devralırken bilinmesi gereken |
 | --- | --- |
-| 🧭 **Son oturum** | **[Oturum 4](#oturum-4)** · Modelleme ve optimizasyon standardı belirlendi. Sıradaki çalışma mevcut Storky modeli ve animasyonları. |
+| 🧭 **Son oturum** | **[Oturum 4](#oturum-4)** · Modelleme ve optimizasyon standardı belirlendi. Yakın üçüncü şahıs kamera ve Ryzen 3 1200 / RX 560 sınıfında 180 FPS hedefi kaydedildi. |
 | 🎯 **Oyun hedefi** | Windows PC’de stilize low poly uçuş ve keşif. Leylek, bebek üretim ve kargolama şirketindeki terfi yarışında ilerler. Dünya ve görev tasarımı [GDD’de](Storky_GDD.pdf). |
 | 🏝️ **Oynanabilir sahne** | [FlightTest](../UnityProject/Assets/_Game/Scenes/FlightTest.unity). 600×600 m Kuş Adası, 70 dış bina kütlesi, fabrika avlusu başlangıcı, dokusuz deniz ve tek güneş. |
 | 🪽 **Çalışan hareket** | Hızla eşleşen yürüyüş, kalkış ve tek vuruşlu kanat çırpma, otomatik süzülme, stamina, gövde merkezli Air Roll, dalıştan toparlanma ve serbest fare kamerası. Deniz teması fabrika avlusuna döndürür. |
@@ -30,13 +30,13 @@
 | --- | --- | --- | --- |
 | Hedef platform | 🟢 Geçerli | Önce Windows PC. | [Oturum 2](#oturum-2) |
 | Kaynak düzeni | 🟢 Geçerli | Tek repo. Düzenlenebilir Blender kaynakları `ArtSource/`, Unity ve FBX çıktıları `UnityProject/` altında. Ölçek 1 Unity birimi = 1 m. `.blend` ve `.fbx` için Git LFS, Unity varlıkları için eşleşen `.meta` dosyaları. | [Oturum 1](#oturum-1) · [Oturum 2](#oturum-2) |
-| Görsel yön ve ada kapsamı | 🟢 Geçerli | Oyun sıcak ve stilize low poly hedefliyor. İlk Kuş Adası greybox’ı Ege/Akdeniz yamaçları, koy, liman ve fabrika çevresinde gri, dokusuz, yalnız dış mekân olarak kuruldu. | [GDD](Storky_GDD.pdf) · [Oturum 3](#oturum-3) |
-| Karakter aktarımı | 🟢 Geçerli | Mevcut leylek, Generic rig, palet ve altı Animator durumu temel alınır. Root motion kapalı, hareketi CharacterController yönetir. Eşleşen yürüyüş ayrı klipte tutulur. | [Oturum 2](#oturum-2) · [Oturum 3](#oturum-3) |
+| Görsel yön ve ada kapsamı | 🟢 Geçerli | Oyun sıcak ve stilize low poly hedefliyor. Karakter ve ada sıfırdan tasarlanabilir. Nihai biçim, oranlar ve yerleşim oyun kamerası ve oynanış ihtiyaçlarına göre seçilir. | [GDD](Storky_GDD.pdf) · [Oturum 3](#oturum-3) |
+| Karakter aktarımı | ⚪ Açık | Üretim rig’i ve klip düzeni gerekli pozlar, geçişler ve hareket sistemiyle uyum sınandıktan sonra seçilecek. Mevcut aktarımın teknik ayrıntıları oturum arşivinde. | [Oturum 2](#oturum-2) · [Oturum 3](#oturum-3) |
 | Hareket ve giriş | 🟢 Geçerli | Fare kamerası tuş tutmadan çalışır. Air Roll gövde ekseninde döner, rotaya otomatik sapma eklemez ve giriş bırakıldığında açıyı korur. Kanat vuruşu stamina harcar. Dalıştan toplanan destek stamina olmadan kullanılabilir. Hava akımı ilave stamina doldurmaz. | [Kontroller](../README.md#kontroller) · [Oturum 3](#oturum-3) |
 | Hareket dengesi | 🟡 Deneme | Yürüyüş 1,4 m/s, azami hava hızı 62 m/s, roll 220°/s. Kanat vuruşunun ileri katkısı 5,5 m/s. Dalış desteği birikime göre en fazla 11 m/s katkı sağlar ve 2 s sürer. | [Oturum 3](#oturum-3) |
 | Deniz ve görünürlük | 🟡 Deneme | Unity’de kamerayı takip eden iki üçgenli dokusuz deniz, sis ve tek yönlü güneş. Görüş 3.000 m, küçük detay 330 m, ev üst sınırı 1.500 m, gölge 110 m. Hedef donanımda ölçülecek. | [Oturum 3](#oturum-3) |
 | Dünya ve oyun döngüsü | 🔵 Plan | İki ana ada ve küçük keşif adaları, terfi yarışı, görevler, kasaba etkileşimleri ve mini oyunlar. Uygulama sırası kullanıcıyla belirlenecek. | [GDD](Storky_GDD.pdf) |
-| Kalite bütçesi | ⚪ Açık | Hedef PC yapılandırması, performans bütçesi ve kesin varlık sınırları ölçümden sonra belirlenir. | [Oturum 2](#oturum-2) · [Oturum 3](#oturum-3) |
+| Kamera ve performans hedefi | 🟢 Geçerli | Oyuncu leyleği yakın üçüncü şahıs kameradan izler. Ryzen 3 1200 / Radeon RX 560 sınıfı Windows PC’de yoğun oynanışta 180 FPS hedeflenir (kare başına yaklaşık 5,56 ms). Çözünürlük, kalite ayarı ve varlık bütçeleri açık. | [GDD, s. 6](Storky_GDD.pdf#page=6) · [Oturum 4](#oturum-4) |
 | Modelleme ve optimizasyon | 🟢 Geçerli | Model üretiminde ve YZ’ye verilen tariflerde aşağıdaki [model standardı](#model-standardi) uygulanır. | [Oturum 4](#oturum-4) |
 | Oyun modu ve dağıtım | ⚪ Açık | Oyun modu, ekipte inceleme düzeni, dağıtım ve varlıkların yeniden kullanım koşulları belirlenmeyi bekliyor. | [GDD](Storky_GDD.pdf) · [Oturum 1](#oturum-1) |
 | Belgeler ve Git | 🟢 Geçerli | Güncel kararlar burada, oturumlar tarihsiz arşivde tutulur. README renkli GitHub şablonunu kullanır. Kullanıcı GDD’yi elden geçirir ve commit/push işlemlerini yürütür. | [Ajan rehberi](../AGENTS.md) |
@@ -51,24 +51,25 @@ Her model tarifinde oynanış rolünü, oyuncunun onu hangi sıklıkta ve ne kad
 
 | Model türü | Korunacak ayrıntı | Oyun kamerasında kabul ölçütü |
 | --- | --- | --- |
-| Storky | Gaga, boyun, açık ve katlı kanat silüeti. Kanat kökü ve bacaklarda bükülmeyi taşıyan kenar akışı ve kemik ağırlıkları. Mevcut 1.892 üçgen, 19 kemik ve tek palet materyali revizyon için başlangıç referansıdır. | Altı klipte uç pozları ve geçişleri izle. Kanat kökü hacmini korumalı, süzülme ve dalış arkadan ayırt edilebilmeli, yürüyüşte basan ayak zeminde kaymamalı. |
+| Storky | Gaga, boyun, açık ve katlı kanat silüeti. Kanat kökü ve bacaklarda bükülmeyi taşıyan kenar akışı ve kemik ağırlıkları. Kemik ve geometri ihtiyacını hedeflenen hareket açıklığında sınayarak belirle. | Yürüyüş, kalkış, kanat vuruşu, süzülme, dalış ve inişte uç pozları ve geçişleri izle. Kanat kökü hacmini korumalı, süzülme ve dalış arkadan ayırt edilebilmeli, yürüyüşte basan ayak zeminde kaymamalı. |
 | Toplanabilir eşya ve etkileşimli nesne | İşlevi anlatan dış hat, renk ve yaklaşma yönünden görülen işaret. | Oyuncu normal yaklaşma hızında nesneyi zamanında tanıyabilmeli. Etkileşim alanı kullanım mesafesine uymalı. |
-| Bina, çatı ve yön bulma noktası | Havadan çatı profili ve ana kütle, inişte saçak ve konma yüzeyi. | Fener ve fabrika uzaktan ayırt edilebilmeli. Yakından görünen çatı eğimi ile fiziksel iniş yüzeyi örtüşmeli. |
+| Bina, çatı ve yön bulma noktası | Havadan çatı profili ve ana kütle, inişte saçak ve konma yüzeyi. | Yön bulmak için tasarlanan yapılar uçuş rotasından ayırt edilebilmeli. Yakından görünen çatı eğimi ile fiziksel iniş yüzeyi örtüşmeli. |
 | Tekrarlanan ağaç, kaya ve dekor | Birkaç ayırt edilebilir silüet, ortak mesh ve materyali kullanan kopyalar. | Yoğun bir uçuş rotasında kopyaları gölgeleriyle birlikte değerlendir. Uzak modelde küçük dal ve çıkıntıları önce sadeleştir. |
 | Uzak ada ve arazi | Kıyı çizgisi, sırt profili ve büyük renk alanları. | Yüksekten uçuşta rota okunabilmeli. Yaklaşılabilen arazide ayrıntı geçişi ufuk çizgisinde görünür sıçrama yaratmamalı. |
 
 - **Yüzey ve renk.** Opak, düz renkli varlıklarda uygun ortak palet materyalini kullan. UV’leri renk hücresinin içine, kenarlardan pay bırakarak yerleştir. Sert kenarları biçime göre seç. Organik eklemlerde gölgelemeyi hareket halinde değerlendir. Deniz gibi farklı yüzey davranışları ayrı shader kullanabilir.
 - **Görünürlük ve fizik.** Bir yüzeyi kaldırmadan önce alttan uçuşu, yamaç yerleşimini ve gölgesini kontrol et. Çarpışma gereken nesnede oynanışı karşılayan en basit collider’ı kullan. Çatılar ve rampalarda konma yüzeyinin eğimini koru.
 - **LOD ve tekrar.** Uzak model veya görünürlük eşiğini nesnenin kapladığı ekran alanına ve tanınması gereken mesafeye göre seç. LOD geçişini normal uçuş hızında kontrol et. Mesh birleştirme ve batching kararını yoğun rotadaki çizim çağrıları, görünürlük ve bellek ölçümüne dayandır.
-- **Bütçe ve doğrulama.** Revizyonda önceki ve yeni modelin üçgen sayısını, Unity’ye aktarılan vertex sayısını ve materyal yuvası sayısını karşılaştır. Animasyonlu modelde kemik sayısı ve vertex başına kemik etkisini de kaydet. Görsel kontrolü kayıtlı FlightTest sahnesinde yürüyüş, çatıya yaklaşma ve yüksekten uçuşta yap. Kesin sınırları hedef Windows PC’de aynı rota, çözünürlük ve kalite ayarlarında ölçülen CPU/GPU kare süreleri ile bellek kullanımına göre belirle.
+- **Bütçe ve doğrulama.** Her adayın üçgen, Unity vertex ve materyal yuvası sayılarını kaydet. Animasyonlu modelde kemik sayısı ve vertex başına kemik etkisini de kaydet. Görsel kontrolü hedef oyun kamerasıyla yürüyüş, konma ve yoğun çevre üzerinde uçuş sırasında yap. Kesin sınırları hedef Windows PC’de aynı rota, çözünürlük ve kalite ayarlarında ölçülen CPU/GPU kare süreleri ile bellek kullanımına göre belirle.
 
 <a id="siradaki-isler"></a>
 
 ## 🛠️ Sıradaki işler
 
-1. **Oyun hissi.** `FlightTest`’te yürüyüş temposunu, Air Roll’u, kanat vuruşunu ve sıfır stamina ile dalıştan çıkışı kullanıcıyla dene. Eğim, çatı inişi ve kamera çarpışmalarını farklı rotalarda kontrol et.
-2. **Başka kurulumda doğrulama.** Git LFS ile temiz klondan açılışı, fiziksel gamepad’i ve hedef Windows donanımını sınamayı planla. Bir Windows build’i alınacaksa [build sahne listesini](../UnityProject/ProjectSettings/EditorBuildSettings.asset) kontrol et. Kayıtlı listede `SampleScene` etkin.
-3. **Sonraki oyun işi.** Kullanıcı GDD’yi gözden geçirdikten sonra İnsan Adası, keşif adaları ve görev sistemleri arasından sonraki kapsamı belirle.
+1. **Üretim temeli.** Yakın üçüncü şahıs kamerayla örnek bir çevrede uçuş ve inişi dene. Leyleğin kanat hareketi ve konacağı yüzey okunuyor mu kontrol et. Hedef sınıftaki PC’de Windows derlemesini aynı yoğun rotada ölç. Çözünürlük, kalite ayarı, ortalama FPS ve en yavaş %1’lik karelerin sürelerini kaydet. Sonuçlarla model ve çevre bütçelerini belirle.
+2. **Oyun hissi.** `FlightTest`’te yürüyüş temposunu, Air Roll’u, kanat vuruşunu ve sıfır stamina ile dalıştan çıkışı kullanıcıyla dene. Eğim, çatı inişi ve kamera çarpışmalarını farklı rotalarda kontrol et.
+3. **Başka kurulumda doğrulama.** Git LFS ile temiz klondan açılışı, fiziksel gamepad’i ve hedef Windows donanımını sınamayı planla. Bir Windows build’i alınacaksa [build sahne listesini](../UnityProject/ProjectSettings/EditorBuildSettings.asset) kontrol et. Kayıtlı listede `SampleScene` etkin.
+4. **Sonraki oyun işi.** Kullanıcı GDD’yi gözden geçirdikten sonra İnsan Adası, keşif adaları ve görev sistemleri arasından sonraki kapsamı belirle.
 
 **Açık kaynak kontrolü.** Leyleğin Blender kaynağını yeniden dışa aktarmadan önce repodaki `.blend` ile Oturum 2’de kullanılan farklı açık kopyanın eşleşmesini doğrula.
 
@@ -144,7 +145,8 @@ Her model tarifinde oynanış rolünü, oyuncunun onu hangi sıklıkta ve ne kad
 ### Oturum 4 · Modelleme ve optimizasyon standardı
 
 - Kuş Adası’nda çatılar hem uzaktan yön bulma hem yakından konma işlevi görüyor. Bu yüzden ayrıntı kararı ekran boyutu, görünme sıklığı, oynanış rolü ve eşzamanlı kopya sayısına bağlandı.
-- GitHub’daki karakter Prefab’ı, Animator ve günlüğün önceki ölçümleri referans alındı. Bu oturum belge çalışmasıydı. Hedef donanım ölçümü ve model revizyonunun oyun içi kabul kontrolleri bekliyor.
+- Kullanıcı, karakter ve greybox’ın baştan yapılabileceğini belirtti. İlk taslaktaki karakter ölçüleri, klip sayısı ve ada düzeni üretim standardından çıkarıldı. Hedef donanım ölçümü ve oyun içi kabul kontrolleri bekliyor.
+- GDD üçüncü şahıs kamerayı tanımlıyor. Kullanıcı yakın takip görünümünü ve eski PC sınıfında 180 FPS hedefini netleştirdi. Performansın hedef donanımda doğrulanması bekliyor.
 
 <details>
 <summary>Sonraki oturum için kayıt şablonu</summary>
